@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lcare IQ — منصة السيطرة الكاملة على السكري</title>
+<meta name="description" content="منصة Lcare IQ للسيطرة الكاملة على السكري بإشراف طبي وصيدلاني متكامل">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- ⚡ FACEBOOK PIXEL — Replace YOUR_PIXEL_ID with your real Pixel ID -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+<!-- END FACEBOOK PIXEL -->
+
+<style>
+  /* ── DARK THEME (default) ── */
+  [data-theme="dark"] {
+    --bg: #0A0D0F;
+    --bg2: #111518;
+    --bg3: #181E22;
+    --bg4: #1F2830;
+    --text: #E8E0D0;
+    --text-strong: #FFFFFF;
+    --text-muted: #8A9090;
+    --border: rgba(255,255,255,0.06);
+    --border-hover: rgba(201,168,76,0.25);
+    --shadow: rgba(0,0,0,0.4);
+  }
+
+  /* ── LIGHT THEME ── */
+  [data-theme="light"] {
+    --bg: #FAF6EE;
+    --bg2: #FFFFFF;
+    --bg3: #FFFFFF;
+    --bg4: #F5EFE0;
+    --text: #1B2530;
+    --text-strong: #0A0D0F;
+    --text-muted: #5C6363;
+    --border: rgba(0,0,0,0.08);
+    --border-hover: rgba(201,168,76,0.4);
+    --shadow: rgba(27,37,48,0.1);
+  }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C570;
+    --gold-dark: #8B6914;
+    --teal: #1A8A8A;
+    --teal-light: #2EC4B6;
+    --teal-dark: #0E5E5E;
+    --whatsapp: #25D366;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden; direction: rtl;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+
+  /* PARTICLES */
+  #particles { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden; }
+  .particle {
+    position:absolute; width:2px; height:2px;
+    background: var(--gold); border-radius:50%; opacity:0;
+    animation: float linear infinite;
+  }
+  @keyframes float {
+    0% { transform: translateY(100vh) scale(0); opacity:0; }
+    10% { opacity:0.6; } 90% { opacity:0.2; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity:0; }
+  }
+  [data-theme="light"] .particle { background: var(--teal); opacity: 0.4 !important; }
+
+  /* URGENCY BAR */
+  .urgency-bar {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
+    color: #0A0D0F; text-align:center; padding:10px 20px;
+    font-weight:700; font-size:0.88rem; position:relative; z-index:99;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 18px 30px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--bg); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  [data-theme="dark"] nav { background: rgba(10,13,15,0.85); }
+  [data-theme="light"] nav { background: rgba(250,246,238,0.92); }
+  nav.scrolled { padding: 12px 30px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; }
+  .nav-logo-text {
+    font-size: 1.25rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+  }
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+  .theme-toggle {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 1.1rem; transition: all 0.3s;
+  }
+  .theme-toggle:hover { border-color: var(--border-hover); transform: rotate(20deg); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #0A0D0F; font-weight:800; font-size:0.85rem;
+    padding: 10px 22px; border-radius: 50px; border: none;
+    cursor: pointer; transition: all 0.3s;
+    font-family: 'Tajawal', sans-serif; text-decoration: none;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.4); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 130px 20px 80px; position: relative;
+  }
+  [data-theme="dark"] .hero {
+    background: radial-gradient(ellipse at 50% 0%, rgba(26,138,138,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.08) 0%, transparent 50%),
+                var(--bg);
+  }
+  [data-theme="light"] .hero {
+    background: radial-gradient(ellipse at 50% 0%, rgba(26,138,138,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 50%),
+                var(--bg);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+    padding: 8px 20px; border-radius: 50px; font-size: 0.85rem;
+    color: var(--gold); margin-bottom: 30px;
+    animation: fadeDown 0.8s ease forwards;
+  }
+  .hero-badge .dot { width:8px; height:8px; background: var(--teal-light); border-radius:50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+  .hero h1 {
+    font-family: 'Amiri', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 700; line-height: 1.4; margin-bottom: 20px;
+    color: var(--text-strong);
+    animation: fadeUp 1s ease 0.2s both;
+  }
+  .highlight {
+    background: linear-gradient(135deg, var(--gold-light), var(--teal-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p.subtitle {
+    font-size: 1.15rem; color: var(--text-muted);
+    max-width: 620px; line-height: 1.9; margin: 0 auto 40px;
+    animation: fadeUp 1s ease 0.4s both;
+  }
+  .hero-stats { display: flex; gap: 50px; justify-content: center; margin-bottom: 50px; flex-wrap: wrap;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-size: 2.4rem; font-weight: 900; display: block;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+  .hero-cta-wrap { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 1s ease 0.8s both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #0A0D0F; font-family: 'Tajawal',sans-serif;
+    font-weight: 800; font-size: 1.1rem; padding: 16px 40px;
+    border-radius: 50px; border: none; cursor: pointer; transition: all 0.3s;
+    text-decoration: none; display: inline-block;
+    box-shadow: 0 4px 30px rgba(201,168,76,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(201,168,76,0.5); }
+  .btn-secondary {
+    background: transparent; color: var(--teal-light);
+    font-family: 'Tajawal',sans-serif; font-weight: 700; font-size: 1rem;
+    padding: 16px 32px; border-radius: 50px;
+    border: 1px solid rgba(46,196,182,0.4); cursor: pointer;
+    transition: all 0.3s; text-decoration: none; display: inline-block;
+  }
+  [data-theme="light"] .btn-secondary { color: var(--teal-dark); border-color: var(--teal-dark); }
+  .btn-secondary:hover { background: rgba(46,196,182,0.08); transform: translateY(-2px); }
+
+  .scroll-indicator {
+    position:absolute; bottom:30px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    opacity:0.5; animation: bounce 2s infinite;
+  }
+  .scroll-indicator span { font-size:0.7rem; color: var(--text-muted); }
+  .scroll-arrow { width:20px; height:20px; border-right: 2px solid var(--gold); border-bottom: 2px solid var(--gold); transform: rotate(45deg); }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+
+  .reveal { opacity:0; transform:translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  section { position: relative; z-index: 1; }
+  .section-inner { max-width: 1100px; margin: 0 auto; padding: 80px 24px; }
+  .section-tag {
+    display: inline-block; background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3); border-radius: 50px;
+    padding: 6px 18px; font-size: 0.8rem; color: var(--gold);
+    margin-bottom: 16px; letter-spacing: 1px;
+  }
+  .section-title {
+    font-family: 'Amiri', serif; color: var(--text-strong);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.4; margin-bottom: 16px;
+  }
+  .section-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; max-width: 650px; }
+  .gold-line {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 20px 0; border-radius: 2px;
+  }
+
+  /* TRUST BAR */
+  .trust-bar {
+    background: var(--bg2); border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); padding: 22px 20px;
+  }
+  .trust-bar-inner { max-width:900px; margin:0 auto;
+    display:flex; align-items:center; justify-content:center;
+    gap:40px; flex-wrap:wrap;
+  }
+  .trust-item { display:flex; align-items:center; gap:8px; opacity:0.7; font-size:0.82rem; color: var(--text); }
+  .trust-item-icon { font-size:1.2rem; }
+
+  /* COUNTERS */
+  #counter-section {
+    background: linear-gradient(135deg, rgba(26,138,138,0.08), rgba(201,168,76,0.04));
+    border-top: 1px solid rgba(46,196,182,0.1);
+    border-bottom: 1px solid rgba(46,196,182,0.1);
+  }
+  .counter-grid { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
+  .counter-item { text-align: center; }
+  .counter-num {
+    font-size: 3rem; font-weight: 900; display: block;
+    background: linear-gradient(135deg, var(--gold-light), var(--teal-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .counter-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; }
+
+  /* PAIN SECTION */
+  .pain-section { background: var(--bg2); }
+  .pain-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; margin-top: 50px;
+  }
+  .pain-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px; transition: all 0.4s;
+    position: relative; overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  .pain-card::before {
+    content: ''; position:absolute; top:0; right:0; width:100px; height:100px;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    border-radius: 0 20px 0 0;
+  }
+  .pain-card:hover { transform: translateY(-5px); border-color: var(--border-hover); }
+  .pain-icon { font-size: 2rem; margin-bottom: 14px; }
+  .pain-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--text-strong); }
+  .pain-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+  /* ── CONDITIONS SELECTOR (NEW) ── */
+  .conditions-section {
+    background: var(--bg);
+    background-image: radial-gradient(circle at 0% 50%, rgba(201,168,76,0.04) 0%, transparent 50%),
+                      radial-gradient(circle at 100% 50%, rgba(26,138,138,0.04) 0%, transparent 50%);
+  }
+  .conditions-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px; margin-top: 40px;
+  }
+  .condition-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 20px; padding: 24px; cursor: pointer;
+    transition: all 0.4s; position: relative; overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  .condition-card:hover {
+    transform: translateY(-4px); border-color: var(--border-hover);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.15);
+  }
+  .condition-icon-wrap {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(26,138,138,0.1));
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px; font-size: 1.6rem;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .condition-name {
+    font-family: 'Amiri',serif; font-size: 1.2rem; font-weight: 700;
+    color: var(--text-strong); margin-bottom: 6px;
+  }
+  .condition-tagline { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.6; }
+  .condition-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--gold); font-size: 0.85rem; font-weight: 700;
+    transition: gap 0.3s;
+  }
+  .condition-card:hover .condition-cta { gap: 10px; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center;
+    padding: 20px; animation: fadeIn 0.3s ease;
+  }
+  .modal-overlay.active { display: flex; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .modal {
+    background: var(--bg2); border: 1px solid var(--border-hover);
+    border-radius: 24px; max-width: 600px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    padding: 40px 32px; position: relative;
+    animation: slideUp 0.4s ease;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  @keyframes slideUp { from{transform:translateY(40px); opacity:0} to{transform:translateY(0); opacity:1} }
+  .modal-close {
+    position: absolute; top: 16px; left: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border);
+    cursor: pointer; font-size: 1.2rem; color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .modal-close:hover { background: var(--bg4); transform: rotate(90deg); }
+  .modal-icon {
+    width: 80px; height: 80px; border-radius: 20px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(26,138,138,0.15));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; font-size: 2.4rem;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+  .modal-title {
+    font-family: 'Amiri',serif; text-align: center;
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--text-strong); margin-bottom: 8px;
+  }
+  .modal-subtitle { text-align: center; color: var(--gold); font-size: 0.9rem; margin-bottom: 24px; }
+  .modal-section { margin-bottom: 22px; }
+  .modal-section-title {
+    font-size: 0.95rem; font-weight: 700; color: var(--gold);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .modal-section p { font-size: 0.95rem; line-height: 1.9; color: var(--text); }
+  .modal-empathy {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(26,138,138,0.05));
+    border-right: 3px solid var(--gold);
+    padding: 18px 20px; border-radius: 12px;
+    font-style: italic; color: var(--text); line-height: 1.9;
+  }
+  .modal-list { list-style: none; padding: 0; }
+  .modal-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 10px; font-size: 0.92rem; line-height: 1.7;
+  }
+  .modal-list li::before {
+    content: '✓'; color: var(--teal-light); font-weight: 800;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .modal-cta-wrap { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+  .modal-cta {
+    flex: 1; min-width: 140px; padding: 14px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #0A0D0F; font-family: 'Tajawal',sans-serif;
+    font-weight: 800; font-size: 0.95rem; border: none; border-radius: 14px;
+    cursor: pointer; text-align: center; text-decoration: none;
+    transition: all 0.3s;
+  }
+  .modal-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.4); }
+  .modal-cta.secondary {
+    background: transparent; color: var(--teal-light);
+    border: 1px solid var(--teal-light);
+  }
+  [data-theme="light"] .modal-cta.secondary { color: var(--teal-dark); border-color: var(--teal-dark); }
+
+  /* ABOUT */
+  .about-section { background: var(--bg2); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center; margin-top: 20px;
+  }
+  @media(max-width:768px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-img-wrap { position: relative; }
+  .about-photo {
+    width: 100%; max-width: 400px; aspect-ratio: 1;
+    border-radius: 30px; object-fit: cover;
+    border: 3px solid rgba(201,168,76,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,168,76,0.1);
+    margin: 0 auto; display: block;
+  }
+  .about-badge {
+    position: absolute; bottom: -15px; right: 50%; transform: translateX(50%);
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #0A0D0F; padding: 14px 24px; border-radius: 14px;
+    font-weight: 800; font-size: 0.9rem; text-align: center;
+    box-shadow: 0 10px 30px rgba(201,168,76,0.4);
+    white-space: nowrap;
+  }
+  .credential-list { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .credential-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--bg3); border: 1px solid var(--border);
+    padding: 14px 18px; border-radius: 14px;
+  }
+  .cred-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(201,168,76,0.12); display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .cred-text { font-size: 0.9rem; color: var(--text); line-height: 1.5; }
+
+  /* PACKAGES */
+  .packages-section {
+    background: var(--bg); position: relative;
+  }
+  .packages-section::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+  }
+  .packages-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    margin-top: 50px;
+  }
+  @media(max-width:900px) { .packages-grid { grid-template-columns: 1fr; } }
+  .package-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 28px; padding: 36px 30px;
+    position: relative; overflow: hidden;
+    transition: all 0.4s; display: flex; flex-direction: column;
+    box-shadow: 0 10px 40px var(--shadow);
+  }
+  .package-card:hover { transform: translateY(-8px); }
+  [data-theme="dark"] .package-card.featured {
+    background: linear-gradient(145deg, #141C1C, #0E1A1A);
+    border-color: rgba(46,196,182,0.35);
+    box-shadow: 0 0 60px rgba(26,138,138,0.15), 0 20px 60px rgba(0,0,0,0.4);
+  }
+  [data-theme="light"] .package-card.featured {
+    background: linear-gradient(145deg, #FFFFFF, #F0F8F8);
+    border-color: rgba(26,138,138,0.4);
+    box-shadow: 0 0 60px rgba(26,138,138,0.1), 0 20px 60px rgba(0,0,0,0.08);
+  }
+  [data-theme="dark"] .package-card.vip {
+    background: linear-gradient(145deg, #1A1508, #12100A);
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 0 60px rgba(201,168,76,0.12), 0 20px 60px rgba(0,0,0,0.4);
+  }
+  [data-theme="light"] .package-card.vip {
+    background: linear-gradient(145deg, #FFFCF2, #FAF1DA);
+    border-color: rgba(201,168,76,0.5);
+    box-shadow: 0 0 60px rgba(201,168,76,0.1), 0 20px 60px rgba(0,0,0,0.08);
+  }
+  .package-badge {
+    position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    color: #0A0D0F; font-size: 0.75rem; font-weight: 800;
+    padding: 5px 20px; border-radius: 0 0 14px 14px;
+  }
+  .package-badge.gold-badge { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
+  .package-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .package-name {
+    font-family: 'Amiri', serif; font-size: 1.5rem; font-weight: 700;
+    margin-bottom: 6px; color: var(--text-strong);
+  }
+  .package-tagline { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; }
+  .package-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+  .price-num { font-size: 2.4rem; font-weight: 900; }
+  .package-card.featured .price-num { color: var(--teal-light); }
+  [data-theme="light"] .package-card.featured .price-num { color: var(--teal-dark); }
+  .package-card.vip .price-num { color: var(--gold-light); }
+  [data-theme="light"] .package-card.vip .price-num { color: var(--gold-dark); }
+  .package-card:not(.featured):not(.vip) .price-num { color: var(--text-strong); }
+  .price-currency { font-size: 0.85rem; color: var(--text-muted); }
+  .price-note { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px; }
+  .divider { height: 1px; background: var(--border); margin: 4px 0 18px; }
+  .features-title {
+    font-size: 0.78rem; font-weight: 800; color: var(--gold);
+    margin-bottom: 12px; letter-spacing: 1.5px;
+  }
+  .features-list { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .feat-item { display: flex; align-items: flex-start; gap: 10px; font-size: 0.86rem; line-height: 1.55; color: var(--text); }
+  .feat-check {
+    width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; margin-top: 2px;
+  }
+  .package-card:not(.featured):not(.vip) .feat-check { background: rgba(255,255,255,0.08); color: var(--text-muted); }
+  [data-theme="light"] .package-card:not(.featured):not(.vip) .feat-check { background: rgba(0,0,0,0.06); color: var(--text-muted); }
+  .package-card.featured .feat-check { background: rgba(46,196,182,0.15); color: var(--teal-light); }
+  [data-theme="light"] .package-card.featured .feat-check { color: var(--teal-dark); }
+  .package-card.vip .feat-check { background: rgba(201,168,76,0.15); color: var(--gold-light); }
+  [data-theme="light"] .package-card.vip .feat-check { color: var(--gold-dark); }
+  .package-btn {
+    margin-top: 24px; padding: 14px; border-radius: 16px;
+    font-family: 'Tajawal',sans-serif; font-weight: 800; font-size: 0.95rem;
+    cursor: pointer; border: none; transition: all 0.3s; text-align: center;
+    display: block; width: 100%; text-decoration: none;
+  }
+  .package-card:not(.featured):not(.vip) .package-btn {
+    background: var(--bg4); color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .package-card:not(.featured):not(.vip) .package-btn:hover { background: var(--bg3); border-color: var(--gold); }
+  .package-card.featured .package-btn {
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    color: #0A0D0F; box-shadow: 0 6px 30px rgba(26,138,138,0.4);
+  }
+  .package-card.featured .package-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(26,138,138,0.5); }
+  .package-card.vip .package-btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #0A0D0F; box-shadow: 0 6px 30px rgba(201,168,76,0.4);
+  }
+  .package-card.vip .package-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(201,168,76,0.5); }
+  .package-promise {
+    margin-top: 14px; padding: 10px 14px; border-radius: 10px;
+    background: rgba(46,196,182,0.08); border: 1px dashed rgba(46,196,182,0.3);
+    font-size: 0.78rem; color: var(--text); text-align: center; line-height: 1.6;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-section { background: var(--bg2); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 50px; }
+  .testimonial-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px;
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  .stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 14px; }
+  .testimonial-text { font-size: 0.92rem; line-height: 1.8; color: var(--text); margin-bottom: 18px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .author-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.9rem; color: #0A0D0F;
+  }
+  .author-name { font-weight: 700; font-size: 0.9rem; color: var(--text-strong); }
+  .author-info { font-size: 0.78rem; color: var(--text-muted); }
+
+  /* FAQ */
+  .faq-section { background: var(--bg); }
+  .faq-list { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; max-width: 780px; }
+  .faq-item {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; transition: border-color 0.3s;
+  }
+  .faq-item.open { border-color: rgba(201,168,76,0.3); }
+  .faq-q {
+    padding: 20px 24px; display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; font-weight: 600; font-size: 0.95rem; gap: 12px; color: var(--text-strong);
+  }
+  .faq-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(201,168,76,0.1); display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: var(--gold); font-size: 1.1rem; transition: all 0.3s;
+  }
+  .faq-item.open .faq-icon { background: rgba(201,168,76,0.2); transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .faq-item.open .faq-a { max-height: 300px; }
+  .faq-a p { padding: 0 24px 20px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; }
+
+  /* REGISTER FORM */
+  .register-section {
+    background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+    position: relative;
+  }
+  .register-section::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.05) 0%, transparent 65%);
+    pointer-events:none;
+  }
+  .register-wrap { max-width: 560px; margin: 0 auto; text-align: center; position: relative; }
+  .form-card {
+    background: var(--bg3); border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 28px; padding: 44px 40px; margin-top: 40px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,168,76,0.05);
+  }
+  @media(max-width:500px) { .form-card { padding: 30px 20px; } }
+  .form-group { margin-bottom: 20px; text-align: right; }
+  .form-label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; display: block; }
+  .form-input, .form-select {
+    width: 100%; background: var(--bg4); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 18px;
+    color: var(--text); font-family: 'Tajawal',sans-serif; font-size: 1rem;
+    direction: rtl; outline: none; transition: border-color 0.3s;
+  }
+  .form-input:focus, .form-select:focus { border-color: rgba(201,168,76,0.4); }
+  .form-input::placeholder { color: var(--text-muted); opacity: 0.5; }
+  .form-select { -webkit-appearance: none; cursor: pointer; }
+  .form-select option { background: var(--bg3); color: var(--text); }
+  .submit-btn {
+    width: 100%; padding: 16px; border-radius: 16px; border: none;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #0A0D0F; font-family: 'Tajawal',sans-serif;
+    font-weight: 900; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;
+    box-shadow: 0 6px 30px rgba(201,168,76,0.35); margin-top: 8px;
+  }
+  .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(201,168,76,0.5); }
+  .form-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 14px; line-height: 1.7; }
+
+  /* FOOTER + SOCIAL */
+  footer {
+    background: var(--bg2); border-top: 1px solid var(--border);
+    text-align: center; padding: 50px 20px 30px;
+  }
+  .footer-logo { font-family: 'Amiri',serif; font-size: 1.6rem; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+  .footer-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 24px; }
+  .social-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .social-link {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--bg3); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); transition: all 0.3s; text-decoration: none;
+  }
+  .social-link:hover { transform: translateY(-3px) scale(1.1); border-color: var(--gold); color: var(--gold); }
+  .social-link svg { width: 22px; height: 22px; fill: currentColor; }
+  .footer-divider { height: 1px; background: var(--border); margin: 24px auto; max-width: 400px; }
+  .footer-copyright { font-size: 0.75rem; color: var(--text-muted); opacity: 0.7; }
+
+  /* WHATSAPP FLOAT */
+  .whatsapp-float {
+    position: fixed; bottom: 30px; left: 30px; z-index: 999;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 30px rgba(37,211,102,0.4);
+    cursor: pointer; transition: all 0.3s; text-decoration: none;
+    animation: fadeUp 1s ease 1.5s both;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 10px 40px rgba(37,211,102,0.5); }
+  .whatsapp-float svg { width: 28px; height: 28px; fill: white; }
+
+  /* SCROLL BAR (modal) */
+  .modal::-webkit-scrollbar { width: 8px; }
+  .modal::-webkit-scrollbar-track { background: var(--bg3); border-radius: 4px; }
+  .modal::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    nav { padding: 14px 16px; }
+    .nav-cta { padding: 8px 16px; font-size: 0.8rem; }
+    .nav-logo-text { font-size: 1.05rem; }
+    .urgency-bar { font-size: 0.75rem; padding: 8px 12px; }
+    .hero { padding: 110px 16px 60px; }
+    .hero-stats { gap: 24px; }
+    .stat-num { font-size: 1.8rem; }
+    .section-inner { padding: 60px 18px; }
+    .modal { padding: 30px 22px; }
+    .modal-title { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+  🔥 المقاعد المتبقية هذا الشهر: <strong id="seats-count">7</strong> مقاعد فقط — لا تضيّع الفرصة 🔥
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <img src="logo.png" alt="Lcare IQ" onerror="this.style.display='none'">
+    <span class="nav-logo-text">LCARE IQ</span>
+  </div>
+  <div class="nav-actions">
+    <button class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع" id="themeBtn">🌙</button>
+    <a href="#register" class="nav-cta" onclick="trackEvent('Lead','header_cta')">احجز مكانك</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div style="position:relative;z-index:1;width:100%">
+    <div class="hero-badge">
+      <span class="dot"></span> منصة طبية متكاملة بإشراف صيدلاني متخصص
+    </div>
+    <h1>
+      هل تريد السيطرة <span class="highlight">الكاملة</span> على<br>
+      السكري خلال <span class="highlight">30 يوماً؟</span>
+    </h1>
+    <p class="subtitle">
+      منصة Lcare IQ تجمع بين المراقبة الدقيقة بحساسات السكر،
+      الإشراف الطبي المباشر، وتعديل نمط الحياة — لتعيش حياة طبيعية بدون قلق
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">+6M</span><span class="stat-label">مشاهدة لمحتوانا</span></div>
+      <div class="stat"><span class="stat-num">+150</span><span class="stat-label">مشترك ناجح</span></div>
+      <div class="stat"><span class="stat-num">98%</span><span class="stat-label">رضا العملاء</span></div>
+    </div>
+    <div class="hero-cta-wrap">
+      <a href="#register" class="btn-primary" onclick="trackEvent('InitiateCheckout','hero_main')">🚀 ابدأ رحلتك الآن</a>
+      <a href="#packages" class="btn-secondary">تعرّف على الباقات</a>
+    </div>
+  </div>
+  <div class="scroll-indicator"><div class="scroll-arrow"></div><span>اكتشف أكثر</span></div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item"><span class="trust-item-icon">🔒</span> سرية تامة</div>
+    <div class="trust-item"><span class="trust-item-icon">⚕️</span> إشراف طبي مباشر</div>
+    <div class="trust-item"><span class="trust-item-icon">📡</span> حساس CGM</div>
+    <div class="trust-item"><span class="trust-item-icon">💬</span> متابعة يومية</div>
+    <div class="trust-item"><span class="trust-item-icon">🏆</span> نتائج مضمونة</div>
+  </div>
+</div>
+
+<!-- COUNTERS -->
+<section id="counter-section">
+  <div class="section-inner">
+    <div class="counter-grid">
+      <div class="counter-item reveal"><span class="counter-num" data-target="6" data-suffix="M">0</span><div class="counter-label">مليون مشاهدة</div></div>
+      <div class="counter-item reveal"><span class="counter-num" data-target="150" data-suffix="+">0</span><div class="counter-label">مشترك بنتائج</div></div>
+      <div class="counter-item reveal"><span class="counter-num" data-target="30" data-suffix="">0</span><div class="counter-label">يوم للنتائج</div></div>
+      <div class="counter-item reveal"><span class="counter-num" data-target="98" data-suffix="%">0</span><div class="counter-label">رضا المشتركين</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section class="pain-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">هل تعاني من هذا؟</div>
+      <h2 class="section-title">المشاكل التي يحلها<br><span class="highlight">برنامج Lcare IQ</span></h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card reveal"><div class="pain-icon">📈</div><h3>سكر غير مستقر</h3><p>هبوط وارتفاع مستمر بالرغم من تناول الأدوية — نوفر مراقبة دقيقة لحل هذا</p></div>
+      <div class="pain-card reveal"><div class="pain-icon">💊</div><h3>أدوية كثيرة ومربكة</h3><p>لا تعرف الجرعة الصحيحة أو التوقيت المناسب — نضع لك خطة دوائية واضحة</p></div>
+      <div class="pain-card reveal"><div class="pain-icon">🍽️</div><h3>نظام غذائي مقيد</h3><p>تأكل ولا تعرف ماذا يرفع السكر — نصمم لك دليل غذائي مناسب لحياتك وخاص بس بيك</p></div>
+      <div class="pain-card reveal"><div class="pain-icon">😰</div><h3>الخوف من المضاعفات</h3><p>قلق مستمر من الكلى والعين والأعصاب — المراقبة المبكرة تمنع المضاعفات</p></div>
+      <div class="pain-card reveal"><div class="pain-icon">🏥</div><h3>مراجعات مكلفة</h3><p>تصرف وقتاً وأموالاً كبيرة على المراجعات — متابعتنا يومية عن بُعد</p></div>
+      <div class="pain-card reveal"><div class="pain-icon">😴</div><h3>تعب وإرهاق مستمر</h3><p>السكر غير المنتظم يسبب الإرهاق — استقرار السكر يعني طاقة طبيعية</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 🆕 CONDITIONS SELECTOR -->
+<section class="conditions-section" id="conditions">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">حالتك الصحية</div>
+      <h2 class="section-title">ما الحالة التي <span class="highlight">تخصّك</span>؟</h2>
+      <div class="gold-line" style="margin:20px auto"></div>
+      <p class="section-sub" style="margin:0 auto">
+        اضغط على حالتك لتعرف كيف نفهم معاناتك ونعالجها بدقة
+      </p>
+    </div>
+
+    <div class="conditions-grid">
+      <div class="condition-card reveal" onclick="openCondition('type1')">
+        <div class="condition-icon-wrap">🩸</div>
+        <div class="condition-name">السكري النوع الأول</div>
+        <div class="condition-tagline">للمعتمدين على الأنسولين — حياة دقيقة كل ساعة</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+
+      <div class="condition-card reveal" onclick="openCondition('type2')">
+        <div class="condition-icon-wrap">⚖️</div>
+        <div class="condition-name">السكري النوع الثاني</div>
+        <div class="condition-tagline">جربت الأدوية ولا زال السكر خارج السيطرة</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+
+      <div class="condition-card reveal" onclick="openCondition('prediabetes')">
+        <div class="condition-icon-wrap">⏰</div>
+        <div class="condition-name">ما قبل السكري / مقاومة الأنسولين</div>
+        <div class="condition-tagline">الوقت الذهبي لمنع المرض قبل أن يبدأ</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+
+      <div class="condition-card reveal" onclick="openCondition('gestational')">
+        <div class="condition-icon-wrap">🤰</div>
+        <div class="condition-name">سكري الحمل</div>
+        <div class="condition-tagline">قلق مضاعف على نفسك وعلى طفلك</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+
+      <div class="condition-card reveal" onclick="openCondition('pcos')">
+        <div class="condition-icon-wrap">🌸</div>
+        <div class="condition-name">تكيس المبايض (PCOS)</div>
+        <div class="condition-tagline">دورات غير منتظمة وزيادة وزن مفاجئة</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+
+      <div class="condition-card reveal" onclick="openCondition('overweight')">
+        <div class="condition-icon-wrap">📊</div>
+        <div class="condition-name">زيادة الوزن</div>
+        <div class="condition-tagline">جربت كل الحميات وعدت لنقطة الصفر؟</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+
+      <div class="condition-card reveal" onclick="openCondition('underweight')">
+        <div class="condition-icon-wrap">🍃</div>
+        <div class="condition-name">خسارة الوزن</div>
+        <div class="condition-tagline">تأكل ولا يزيد وزنك — قد يكون السبب أعمق</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+
+      <div class="condition-card reveal" onclick="openCondition('athlete')">
+        <div class="condition-icon-wrap">🏆</div>
+        <div class="condition-name">رياضي - Athlete</div>
+        <div class="condition-tagline">أداء عالٍ يحتاج فهماً عميقاً لجسمك</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+
+      <div class="condition-card reveal" onclick="openCondition('other')">
+        <div class="condition-icon-wrap">✨</div>
+        <div class="condition-name">حالة أخرى</div>
+        <div class="condition-tagline">حالتك مختلفة؟ تواصل معنا للتقييم الشخصي</div>
+        <div class="condition-cta">اعرف كيف نساعدك ←</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img src="dr-ali.jpg" alt="د. الصيدلاني علي" class="about-photo">
+        <div class="about-badge">د. الصيدلاني علي — مؤسس Lcare IQ</div>
+      </div>
+      <div class="about-content reveal">
+        <div class="section-tag">من نحن</div>
+        <h2 class="section-title">خبرة طبية متخصصة<br><span class="highlight">في خدمتك</span></h2>
+        <div class="gold-line"></div>
+        <p style="color:var(--text-muted);line-height:1.9;font-size:0.95rem;margin-bottom:20px">
+          أنا الدكتور الصيدلاني علي، مؤسس منصة Lcare IQ. هدفي دمج الصيدلة السريرية
+          مع تقنيات المراقبة الحديثة لمنح مرضى السكري حياة طبيعية كاملة.
+        </p>
+        <ul class="credential-list">
+          <li class="credential-item"><div class="cred-icon">🎓</div><div class="cred-text">صيدلاني سريري متخصص في أمراض الغدد الصماء والسكري</div></li>
+          <li class="credential-item"><div class="cred-icon">📡</div><div class="cred-text">خبير في تفسير بيانات حساسات السكر المستمرة (CGM)</div></li>
+          <li class="credential-item"><div class="cred-icon">🥗</div><div class="cred-text">متعاون مع طبيبة اختصاص أسرة وأخصائية تغذية علاجية متقدمة</div></li>
+          <li class="credential-item"><div class="cred-icon">⭐</div><div class="cred-text">أكثر من 150 مشترك حققوا تحسناً ملموساً في مستوى السكر</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages-section" id="packages">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">الباقات</div>
+      <h2 class="section-title">اختر الخطة المناسبة لك<br><span class="highlight">للشهر الأول المكثف</span></h2>
+      <div class="gold-line" style="margin:20px auto"></div>
+      <p class="section-sub" style="margin:0 auto">جميع الباقات تشمل متابعة طبية مستمرة وخطة علاجية مخصصة لحالتك</p>
+    </div>
+    <div class="packages-grid">
+
+      <!-- SILVER -->
+      <div class="package-card reveal">
+        <div class="package-icon">🌿</div>
+        <div class="package-name">الباقة الفضية</div>
+        <div class="package-tagline">التأسيس والمتابعة الأسبوعية الذكية</div>
+        <div class="package-price">
+          <span class="price-num">95,000</span>
+          <span class="price-currency">دينار / شهر</span>
+        </div>
+        <div class="price-note">للشهر الأول المكثف</div>
+        <div class="divider"></div>
+        <div class="features-title">✦ ما الذي ستحصل عليه ✦</div>
+        <ul class="features-list">
+          <li class="feat-item"><div class="feat-check">✓</div><div>الاختيار المثالي لحالات النوع الثاني، السمنة، النحافة، تكيس المبايض</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>تصميم <strong>الدليل الغذائي الصحي الخاص بك</strong> بالكامل</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>خطة علاجية شاملة ومخصصة لحالتك</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>خطة المكملات الغذائية المناسبة</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>متابعة قراءات الوخز العادية أو حساس CGM</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>تدخل طبي <strong>أسبوعي</strong> من طبيبة اختصاص أسرة وتغذية علاجية</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>تعديل العلاجات ومراقبة التداخلات الدوائية</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>متابعة <strong>يومية</strong> لالتزامك الغذائي والدوائي</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>توجيه مستمر من الصيدلاني المختص</div></li>
+        </ul>
+        <div class="package-promise">💎 وعدنا: استقرار ملحوظ في السكر خلال أسبوعين</div>
+        <a href="#register" class="package-btn" onclick="selectPackage('silver')">احجز هذه الباقة</a>
+      </div>
+
+      <!-- GOLD FEATURED -->
+      <div class="package-card featured reveal">
+        <div class="package-badge">⭐ الأكثر طلباً</div>
+        <div class="package-icon">🏆</div>
+        <div class="package-name">الباقة الذهبية</div>
+        <div class="package-tagline">المتابعة الذكية واللصيقة — السيطرة الكاملة</div>
+        <div class="package-price">
+          <span class="price-num">145,000</span>
+          <span class="price-currency">دينار / شهر</span>
+        </div>
+        <div class="price-note">للشهر الأول المكثف</div>
+        <div class="divider"></div>
+        <div class="features-title">✦ كل مميزات الفضية + ✦</div>
+        <ul class="features-list">
+          <li class="feat-item"><div class="feat-check">✓</div><div>متابعة لصيقة لحالات <strong>عدم الاستقرار</strong> للنوع الأول ومقاومة الأنسولين</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div><strong>تحليل يومي</strong> لمنحنيات السكر من جهاز الوخز أو CGM</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>تدخل طبي <strong>يومي</strong> من طبيبة اختصاص أسرة وتغذية علاجية</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>تعديل الأدوية والأنسولين بناءً على <strong>استجابة جسمك اللحظية</strong> للأكل</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>متابعة من الفريق الصيدلاني الكامل</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>دعم تقني لاستخدام جهاز CGM بكفاءة</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>أولوية في الرد على استفسارات الواتساب</div></li>
+        </ul>
+        <div class="package-promise">⚠️ ملاحظة هامة: تتطلب جهاز CGM. يمكنك توفيره بنفسك أو نوصله لباب منزلك بسعر السوق التقريبي 100 ألف دينار (يُدفع منفصلاً عند الاستلام)</div>
+        <a href="#register" class="package-btn" onclick="selectPackage('gold')">ابدأ بالذهبية الآن</a>
+      </div>
+
+      <!-- VIP -->
+      <div class="package-card vip reveal">
+        <div class="package-badge gold-badge">💎 VIP حصري</div>
+        <div class="package-icon">👑</div>
+        <div class="package-name">باقة VIP الماسية</div>
+        <div class="package-tagline">للحالات الخاصة والنوع الأول — الرعاية القصوى</div>
+        <div class="package-price">
+          <span class="price-num">245,000</span>
+          <span class="price-currency">دينار / شهر</span>
+        </div>
+        <div class="price-note">للشهر الأول المكثف</div>
+        <div class="divider"></div>
+        <div class="features-title">✦ كل مميزات الذهبية + ✦</div>
+        <ul class="features-list">
+          <li class="feat-item"><div class="feat-check">✓</div><div>رعاية <strong>مكثفة وفائقة الدقة</strong> للحالات المعتمدة كلياً على الأنسولين (Type 1)</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>للحالات التي تعاني من <strong>تذبذب شديد</strong> في السكر</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div><strong>أولوية قصوى</strong> بالرد الفوري على استفساراتك العاجلة</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>حساب <strong>دقيق</strong> لمعامل الكاربوهيدرات الخاص بك</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>تعديل مستمر لجرعات الأنسولين <strong>(القاعدي والسريع)</strong></div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>تجنّب الهبوط والارتفاع المفاجئ بإشراف طبي وصيدلاني مستمر</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>إجابة سريعة لأسئلتك اليومية: "ماذا آكل الآن؟" — "كم جرعة الأنسولين؟"</div></li>
+          <li class="feat-item"><div class="feat-check">✓</div><div>خط تواصل مباشر مع د. علي شخصياً</div></li>
+        </ul>
+        <div class="package-promise">⚠️ ملاحظة: تتطلب جهازي سنسر لتغطية الشهر بالكامل (يتم توفيرها بشكل منفصل)</div>
+        <a href="#register" class="package-btn" onclick="selectPackage('vip')">احجز VIP الآن</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">آراء مشتركينا</div>
+      <h2 class="section-title">ماذا يقول <span class="highlight">من جربوا</span> البرنامج؟</h2>
+      <div class="gold-line" style="margin:20px auto"></div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"بعد 3 أسابيع، انخفض التراكمي من 9.2 إلى 7.4. الدكتور علي يتابعني يومياً ويعدل الجرعات بدقة مذهلة. حياتي تغيرت فعلاً."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">أ.م</div>
+          <div><div class="author-name">أبو محمد — بغداد</div><div class="author-info">سكري نوع ثاني — 3 أشهر في البرنامج</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"كنت خايف من الأنسولين. الدكتور علي شرح لي كل شيء وضبط الجرعات بشكل مثالي. الهبوطات توقفت تقريباً."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">أ.خ</div>
+          <div><div class="author-name">أم خالد — الناصرية</div><div class="author-info">سكري نوع أول — الباقة الذهبية</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"الباقة الفضية كافية جداً لحالتي. النظام الغذائي اللي صمموه لي خلاني أنزل 8 كيلو وأستقر السكر."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">ع.ر</div>
+          <div><div class="author-name">عمر رضا — الديوانية</div><div class="author-info">مقاومة أنسولين — الباقة الفضية</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">أسئلة شائعة</div>
+      <h2 class="section-title">كل ما تريد <span class="highlight">معرفته</span></h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>هل البرنامج مناسب لأي نوع من السكري؟</span><div class="faq-icon">+</div></div><div class="faq-a"><p>نعم، لدينا باقات لجميع أنواع السكري (النوع الأول، الثاني، سكري الحمل، مقاومة الأنسولين). باقة VIP مخصصة خصيصاً للنوع الأول والحالات المعقدة.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>كيف تتم المتابعة اليومية؟</span><div class="faq-icon">+</div></div><div class="faq-a"><p>عبر واتساب مباشرة. ترسل لنا قراءات السكر وأي تساؤلات، ونرد بتعليمات واضحة. كذلك نراجع بيانات حساس CGM يومياً إن كنت تستخدمه.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>ما الفرق بين الباقة الفضية والذهبية؟</span><div class="faq-icon">+</div></div><div class="faq-a"><p>الذهبية تضيف: تحليل يومي (وليس أسبوعي) لقراءات السكر، متابعة طبيبة اختصاص يومياً، وتعديل يومي لجرعات الأنسولين بناءً على استجابة الجسم اللحظية.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>هل يمكنني الاشتراك من خارج العراق؟</span><div class="faq-icon">+</div></div><div class="faq-a"><p>بالتأكيد! المنصة تعمل عن بُعد عبر واتساب بالكامل. لدينا مشتركون من عدة دول.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>كيف يتم الدفع؟</span><div class="faq-icon">+</div></div><div class="faq-a"><p>عبر التحويل البنكي / زين كاش / آسيا حواله، أو الدفع عند الاستلام داخل المدن العراقية. التفاصيل تُشرح عند التواصل.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>ماذا لو لم أرَ نتائج؟</span><div class="faq-icon">+</div></div><div class="faq-a"><p>نلتزم بمتابعة مكثفة حتى نصل لنتيجة واضحة. في حالة وجود أي إشكالية، نعدل الخطة فوراً. رضا العميل هو أولويتنا الأولى.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section class="register-section" id="register">
+  <div class="section-inner">
+    <div class="register-wrap">
+      <div class="reveal">
+        <div class="section-tag">التسجيل</div>
+        <h2 class="section-title">احجز مكانك <span class="highlight">الآن</span></h2>
+        <div class="gold-line" style="margin:20px auto"></div>
+        <p class="section-sub" style="margin:0 auto">أرسل بياناتك وسنتواصل معك خلال ساعتين عبر واتساب</p>
+      </div>
+      <div class="form-card reveal">
+        <div class="form-group">
+          <label class="form-label">الاسم الثلاثي *</label>
+          <input type="text" class="form-input" id="f-name" placeholder="أدخل اسمك الكامل">
+        </div>
+        <div class="form-group">
+          <label class="form-label">رقم الواتساب *</label>
+          <input type="tel" class="form-input" id="f-phone" placeholder="07xxxxxxxxx" style="direction:ltr;text-align:right">
+        </div>
+        <div class="form-group">
+          <label class="form-label">حالتك *</label>
+          <select class="form-select" id="f-condition">
+            <option value="" disabled selected>اختر حالتك</option>
+            <option value="type1">السكري النوع الأول</option>
+            <option value="type2">السكري النوع الثاني</option>
+            <option value="prediabetes">ما قبل السكري / مقاومة أنسولين</option>
+            <option value="gestational">سكري الحمل</option>
+            <option value="pcos">تكيس المبايض</option>
+            <option value="overweight">زيادة وزن</option>
+            <option value="underweight">خسارة وزن</option>
+            <option value="athlete">رياضي - Athlete</option>
+            <option value="other">أخرى</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">الباقة المطلوبة *</label>
+          <select class="form-select" id="f-package">
+            <option value="" disabled selected>اختر الباقة المناسبة</option>
+            <option value="silver">🌿 الباقة الفضية — 95,000 دينار</option>
+            <option value="gold">🏆 الباقة الذهبية — 145,000 دينار</option>
+            <option value="vip">💎 VIP — 245,000 دينار</option>
+          </select>
+        </div>
+        <button class="submit-btn" onclick="handleSubmit()">🚀 سجّل الآن وسأتواصل معك اليوم</button>
+        <p class="form-note">🔒 بياناتك سرية تماماً ولن تُشارك مع أي جهة<br>⏱️ سيتواصل معك الدكتور علي خلال ساعتين</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">LCARE IQ ∞</div>
+  <p class="footer-text">منصة السيطرة على السكري بإشراف طبي متكامل<br>متاحة لجميع المحافظات العراقية والدول العربية</p>
+
+  <div class="social-links">
+    <a href="https://www.tiktok.com/@lcare.iq" target="_blank" class="social-link" title="TikTok" onclick="trackEvent('Contact','tiktok')">
+      <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.65a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.08z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/lcareiq" target="_blank" class="social-link" title="Facebook" onclick="trackEvent('Contact','facebook')">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/lcareiq" target="_blank" class="social-link" title="Instagram" onclick="trackEvent('Contact','instagram')">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+    </a>
+    <a href="https://wa.me/9647838967935" target="_blank" class="social-link" title="WhatsApp" onclick="trackEvent('Contact','whatsapp_footer')">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  </div>
+
+  <div class="footer-divider"></div>
+  <p class="footer-copyright">© 2026 Lcare IQ — جميع الحقوق محفوظة</p>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/9647838967935" class="whatsapp-float" target="_blank" title="تواصل عبر واتساب" onclick="trackEvent('Contact','whatsapp_float')">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- 🆕 CONDITIONS MODAL -->
+<div class="modal-overlay" id="conditionModal" onclick="if(event.target.id==='conditionModal') closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-icon" id="modal-icon">🩸</div>
+    <h2 class="modal-title" id="modal-title">عنوان الحالة</h2>
+    <div class="modal-subtitle" id="modal-subtitle">نحن نفهمك تماماً</div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">💚 نحن نشعر بمعاناتك</div>
+      <div class="modal-empathy" id="modal-empathy">...</div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">🎯 كيف نساعدك في Lcare IQ</div>
+      <ul class="modal-list" id="modal-help"></ul>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">⭐ الباقة الموصى بها لحالتك</div>
+      <p id="modal-recommendation"></p>
+    </div>
+
+    <div class="modal-cta-wrap">
+      <a href="#register" class="modal-cta" onclick="selectFromModal()">🚀 سجّل الآن لحالتي</a>
+      <a href="https://wa.me/9647838967935?text=مرحباً، أريد استشارة بخصوص حالتي" class="modal-cta secondary" target="_blank" onclick="trackEvent('Contact','whatsapp_modal')">💬 استشارة واتساب</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============ THEME TOGGLE ============
+  let currentTheme = 'dark';
+  function toggleTheme() {
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    document.getElementById('themeBtn').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+  }
+
+  // ============ PIXEL TRACKING ============
+  function trackEvent(eventName, label) {
+    if (typeof fbq !== 'undefined') {
+      fbq('trackCustom', eventName, { source: label });
+    }
+    console.log('📊 Pixel:', eventName, label);
+  }
+
+  // ============ CONDITIONS DATA ============
+  const conditions = {
+    type1: {
+      icon: '🩸',
+      title: 'السكري النوع الأول',
+      subtitle: 'كل ساعة معركة دقيقة',
+      empathy: 'نعرف أن العيش مع النوع الأول يعني تحدّي كل يوم — الوخز المستمر، حساب الجرعات لكل وجبة، الخوف من الهبوطات الليلية المفاجئة. تستيقظ تتحقق من السكر، تنام وأنت قلق. أنت لست وحدك في هذه الرحلة.',
+      help: [
+        'حساب دقيق لمعامل الكاربوهيدرات الخاص بجسمك',
+        'تعديل مستمر لجرعات الأنسولين القاعدي والسريع',
+        'مراقبة CGM يومية لمنع الهبوطات والارتفاعات',
+        'خط طوارئ مع د. علي للأسئلة العاجلة',
+        'تنسيق مع طبيبة اختصاص لخطة شاملة'
+      ],
+      recommendation: 'نوصي بـ <strong>باقة VIP الماسية</strong> — مصممة خصيصاً للحالات المعتمدة على الأنسولين والتذبذب الشديد.',
+      package: 'vip'
+    },
+    type2: {
+      icon: '⚖️',
+      title: 'السكري النوع الثاني',
+      subtitle: 'الإحباط ينتهي اليوم',
+      empathy: 'نفهم أنك جربت كل شيء — الحميات المتعددة، الأدوية المختلفة، النصائح المتضاربة. ولا زلت تشعر أن السكر يلعب بك. الإحباط يكبر مع كل قراءة عالية. نحن هنا لنضع لك خطة واقعية تنجح فعلاً، مبنية على بيانات جسمك أنت.',
+      help: [
+        'تحليل بيانات السكر لفهم مسبباتك الشخصية',
+        'دليل غذائي مصمم لذوقك ونمط حياتك',
+        'تعديل الأدوية بإشراف طبيب اختصاص',
+        'خطة لتقليل الأدوية تدريجياً مع تحسن السيطرة',
+        'متابعة يومية لكسر دائرة الإحباط'
+      ],
+      recommendation: 'نوصي بـ <strong>الباقة الفضية</strong> أو <strong>الذهبية</strong> حسب درجة عدم الاستقرار.',
+      package: 'silver'
+    },
+    prediabetes: {
+      icon: '⏰',
+      title: 'مقاومة الأنسولين / ما قبل السكري',
+      subtitle: 'الوقت الذهبي لمنع المرض',
+      empathy: 'أنت في نقطة حاسمة — فرصة منع تطور المرض وعكس مساره موجودة الآن. كثير ممن يصلون لهذه المرحلة يتجاهلون التحذيرات حتى يفوت الأوان ويصبح السكري حقيقة دائمة. لا تكن منهم. التصرف اليوم يحدد صحة العشر سنوات القادمة.',
+      help: [
+        'تشخيص دقيق لمدى مقاومة الأنسولين',
+        'برنامج غذائي لعكس المقاومة وليس فقط إدارتها',
+        'مكملات مدروسة علمياً لتحسين الحساسية للأنسولين',
+        'برنامج رياضي مخصص لقدرتك',
+        'متابعة شهرية للتحاليل ومنع التطور'
+      ],
+      recommendation: 'نوصي بـ <strong>الباقة الفضية</strong> — الأنسب للوقاية والعلاج المبكر.',
+      package: 'silver'
+    },
+    gestational: {
+      icon: '🤰',
+      title: 'سكري الحمل',
+      subtitle: 'سلامتك وسلامة طفلك أولوية',
+      empathy: 'نعلم أن قلقك مضاعف الآن — على نفسك وعلى طفلك. كل قراءة ترتفع تثير الخوف والذنب. الوصفات الغذائية المعقدة، التحذيرات من كل شيء، والقلق من التحاليل القادمة. خطتنا مصممة خصيصاً لتحمي صحتك وصحة جنينك بأمان تام.',
+      help: [
+        'متابعة طبية مكثفة بإشراف طبيبة اختصاص أسرة',
+        'خطة غذائية آمنة وكافية لاحتياجاتك واحتياجات الجنين',
+        'مراقبة دقيقة للسكر بعد كل وجبة',
+        'تنسيق مع طبيبتك المعالجة في النسائية',
+        'دعم نفسي لتقليل القلق والخوف'
+      ],
+      recommendation: 'نوصي بـ <strong>الباقة الذهبية</strong> — لتغطية فترة الحمل الحساسة بعناية كاملة.',
+      package: 'gold'
+    },
+    pcos: {
+      icon: '🌸',
+      title: 'تكيس المبايض (PCOS)',
+      subtitle: 'نعالج الجذر، لا الأعراض فقط',
+      empathy: 'الدورات غير المنتظمة، زيادة الوزن المفاجئة التي ترفض الذهاب، حب الشباب، الشعر الزائد، وربما صعوبة في الإنجاب. كل هذا ليس مصادفة — مقاومة الأنسولين الكامنة وراء PCOS هي الجذر. معظم الأطباء يعالجون الأعراض فقط. نحن نعالج السبب.',
+      help: [
+        'برنامج غذائي مخصص لـ PCOS لخفض مقاومة الأنسولين',
+        'مكملات علمية مدروسة (مثل Inositol) للدورة والأيض',
+        'تنسيق مع طبيبة اختصاص للجانب الهرموني',
+        'متابعة الوزن والمؤشرات الأيضية',
+        'تحسين فرص الإنجاب الطبيعي'
+      ],
+      recommendation: 'نوصي بـ <strong>الباقة الفضية</strong> — المثالية لحالات PCOS.',
+      package: 'silver'
+    },
+    overweight: {
+      icon: '📊',
+      title: 'زيادة الوزن',
+      subtitle: 'المشكلة ليست إرادتك',
+      empathy: 'جربت كل الحميات وعدت لنقطة الصفر؟ أو نزلت كثيراً ثم زدت أكثر؟ نحن نفهمك. المشكلة ليست إرادتك أو التزامك — الهرمونات والاستجابة الفردية للطعام هي المفتاح. حمية صديقتك لا تعني أنها ستنفع معك. جسمك مختلف.',
+      help: [
+        'تصميم خطة بناءً على بيانات جسمك الحقيقية (CGM/تحاليل)',
+        'تحديد الأطعمة التي ترفع سكرك أنت تحديداً',
+        'برنامج تدريجي ومستدام (لا حرمان مؤقت)',
+        'دعم نفسي لمنع الانتكاس',
+        'مراقبة الأيض لضمان حرق دهون حقيقي'
+      ],
+      recommendation: 'نوصي بـ <strong>الباقة الفضية</strong> — كافية لخسارة وزن صحية ومستدامة.',
+      package: 'silver'
+    },
+    underweight: {
+      icon: '🍃',
+      title: 'خسارة الوزن غير المبررة',
+      subtitle: 'قد يكون السبب أعمق مما تظن',
+      empathy: 'تأكل وتأكل ولا يزيد وزنك؟ أو فقدت وزناً مفاجئاً وتقلق على صحتك؟ السكري المخفي، الاضطرابات الأيضية، أو مشاكل الامتصاص قد تكون السبب. كثير من الناس يتجاهلون هذا حتى يصلوا لمرحلة متقدمة. نشخّص ونعالج بدقة.',
+      help: [
+        'فحص شامل لاستبعاد السكري المخفي',
+        'تقييم وظائف الأمعاء والامتصاص',
+        'برنامج زيادة وزن صحية بدون رفع السكر',
+        'مكملات غذائية مدروسة',
+        'تنسيق مع طبيب اختصاص إذا لزم الأمر'
+      ],
+      recommendation: 'نوصي بـ <strong>الباقة الفضية</strong> — للتشخيص والعلاج المتكامل.',
+      package: 'silver'
+    },
+    athlete: {
+      icon: '🏆',
+      title: 'الرياضيون - Athletes',
+      subtitle: 'الأداء العالي يبدأ من الأيض',
+      empathy: 'الأداء العالي يتطلب فهماً عميقاً لاستجابة جسمك للطعام والتمرين. لماذا تشعر بالتعب في وقت معين؟ ما الوجبة المثالية قبل التمرين؟ كيف تتعافى أسرع؟ معظم الرياضيين يخمنون. أنت ستعرف بدقة.',
+      help: [
+        'تحليل CGM لفهم استجابة جسمك للأطعمة المختلفة',
+        'بروتوكول تغذية لما قبل وأثناء وبعد التمرين',
+        'تحسين التعافي بين التمارين',
+        'استراتيجيات لرفع الأداء الذهني والبدني',
+        'مكملات رياضية مدروسة علمياً'
+      ],
+      recommendation: 'نوصي بـ <strong>الباقة الذهبية</strong> — للتحليل اليومي الدقيق المطلوب.',
+      package: 'gold'
+    },
+    other: {
+      icon: '✨',
+      title: 'حالة أخرى',
+      subtitle: 'كل حالة تستحق تقييماً شخصياً',
+      empathy: 'حالتك مختلفة أو معقدة؟ نحن نتعامل مع كل مريض كحالة فريدة. تواصل معنا للتقييم المبدئي المجاني، وسنحدد سوياً الباقة الأنسب أو نضع لك خطة مخصصة بالكامل.',
+      help: [
+        'تقييم مبدئي مجاني لحالتك',
+        'تحديد الباقة الأنسب أو خطة مخصصة',
+        'إشراف من د. علي شخصياً',
+        'تنسيق مع الاختصاصات المطلوبة',
+        'سرية تامة لبياناتك'
+      ],
+      recommendation: 'تواصل عبر الواتساب للحصول على تقييم شخصي.',
+      package: 'silver'
+    }
+  };
+
+  let currentCondition = null;
+  function openCondition(key) {
+    const c = conditions[key];
+    if (!c) return;
+    currentCondition = key;
+    document.getElementById('modal-icon').textContent = c.icon;
+    document.getElementById('modal-title').textContent = c.title;
+    document.getElementById('modal-subtitle').textContent = c.subtitle;
+    document.getElementById('modal-empathy').textContent = c.empathy;
+    document.getElementById('modal-help').innerHTML = c.help.map(h => `<li>${h}</li>`).join('');
+    document.getElementById('modal-recommendation').innerHTML = c.recommendation;
+    document.getElementById('conditionModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    trackEvent('ViewContent', 'condition_' + key);
+  }
+  function closeModal() {
+    document.getElementById('conditionModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function selectFromModal() {
+    if (currentCondition && conditions[currentCondition]) {
+      const condSelect = document.getElementById('f-condition');
+      const pkgSelect = document.getElementById('f-package');
+      condSelect.value = currentCondition;
+      pkgSelect.value = conditions[currentCondition].package;
+    }
+    closeModal();
+    trackEvent('AddToCart', 'modal_select_' + currentCondition);
+  }
+  function selectPackage(pkg) {
+    document.getElementById('f-package').value = pkg;
+    trackEvent('AddToCart', 'package_' + pkg);
+  }
+
+  // PARTICLES
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s;opacity:${Math.random()*0.5};`;
+    container.appendChild(p);
+  }
+
+  // NAVBAR SCROLL
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // REVEAL
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // COUNTERS
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        let current = 0;
+        const step = target / 50;
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = (target < 10 ? current.toFixed(1) : Math.floor(current)) + (current >= target ? suffix : '');
+          if (current >= target) {
+            el.textContent = target + suffix;
+            clearInterval(timer);
+          }
+        }, 30);
+        counterObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter-num').forEach(c => counterObs.observe(c));
+
+  // FAQ
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // FORM SUBMIT — sends to WhatsApp
+  function handleSubmit() {
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const condition = document.getElementById('f-condition').value;
+    const package_ = document.getElementById('f-package').value;
+
+    if (!name || !phone || !condition || !package_) {
+      [['f-name',name],['f-phone',phone],['f-condition',condition],['f-package',package_]].forEach(([id,v]) => {
+        document.getElementById(id).style.borderColor = v ? 'rgba(46,196,182,0.5)' : 'rgba(255,80,80,0.5)';
+      });
+      return;
+    }
+
+    // FB Pixel: Lead event
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', {
+        content_name: package_,
+        content_category: condition,
+        value: package_ === 'vip' ? 245 : package_ === 'gold' ? 145 : 95,
+        currency: 'USD'
+      });
+      fbq('track', 'CompleteRegistration');
+    }
+
+    // Build WhatsApp message
+    const conditionNames = {
+      type1: 'السكري النوع الأول',
+      type2: 'السكري النوع الثاني',
+      prediabetes: 'مقاومة الأنسولين',
+      gestational: 'سكري الحمل',
+      pcos: 'تكيس المبايض',
+      overweight: 'زيادة وزن',
+      underweight: 'خسارة وزن',
+      athlete: 'رياضي',
+      other: 'حالة أخرى'
+    };
+    const packageNames = {
+      silver: '🌿 الباقة الفضية (95,000 د.ع)',
+      gold: '🏆 الباقة الذهبية (145,000 د.ع)',
+      vip: '💎 باقة VIP (245,000 د.ع)'
+    };
+
+    const msg = `مرحباً د. علي 👋
+أرغب بالاشتراك في برنامج Lcare IQ:
+
+👤 الاسم: ${name}
+📱 الواتساب: ${phone}
+🩺 الحالة: ${conditionNames[condition]}
+📦 الباقة: ${packageNames[package_]}
+
+أرجو التواصل معي لإكمال التسجيل.`;
+
+    const waLink = `https://wa.me/9647838967935?text=${encodeURIComponent(msg)}`;
+
+    // Show success then redirect
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = '✅ تم! يتم تحويلك للواتساب...';
+    btn.style.background = 'linear-gradient(135deg, #25D366, #128C7E)';
+    btn.style.color = '#fff';
+
+    setTimeout(() => { window.open(waLink, '_blank'); }, 800);
+  }
+
+  // SEATS COUNTER ANIMATION
+  setTimeout(() => {
+    const el = document.getElementById('seats-count');
+    if (el) {
+      setInterval(() => {
+        el.style.transform = 'scale(1.2)';
+        setTimeout(() => el.style.transform = 'scale(1)', 200);
+      }, 8000);
+    }
+  }, 3000);
+
+  // ESC closes modal
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>

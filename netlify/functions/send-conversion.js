@@ -99,8 +99,9 @@ exports.handler = async (event) => {
             currency: 'IQD'
           }
         }
-      ]
-      // ملاحظة: لإضافة test_events أثناء الاختبار أضف هنا: test_event_code: 'TEST89725'
+       ]
+      },
+      test_event_code: 'TEST89725'
     };
 
     const url = `https://graph.facebook.com/v18.0/${PIXEL_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`;

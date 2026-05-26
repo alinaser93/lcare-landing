@@ -74,7 +74,7 @@ exports.handler = async (event) => {
           }
         }
       ],
-      test_event_code: 'TEST89725'
+      
     };
 
     const url = `https://graph.facebook.com/v18.0/${PIXEL_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`;

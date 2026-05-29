@@ -2275,6 +2275,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input type="tel" class="form-input" id="f-phone" placeholder="07xxxxxxxxx" style="direction:ltr;text-align:right">
         </div>
         <div class="form-group">
+          <label class="form-label">البريد الإلكتروني <span style="opacity:.6;font-weight:400">(اختياري — يصلك تذكير وعرض خاص)</span></label>
+          <input type="email" class="form-input" id="f-email" placeholder="example@email.com" style="direction:ltr;text-align:right">
+        </div>
+        <div class="form-group">
           <label class="form-label">حالتك *</label>
           <select class="form-select" id="f-condition">
             <option value="" disabled selected>اختر حالتك</option>
@@ -3042,6 +3046,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function handleSubmit() {
     const name = document.getElementById('f-name').value.trim();
     const phone = document.getElementById('f-phone').value.trim();
+    const email = (document.getElementById('f-email') ? document.getElementById('f-email').value.trim() : '');
     const condition = document.getElementById('f-condition').value;
     const package_ = document.getElementById('f-package').value;
 
@@ -3103,6 +3108,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         body: JSON.stringify({
           name: name,
           phone: phone,
+          email: email,
           condition: condition,
           condition_label: conditionLabel,
           package: package_,

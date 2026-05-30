@@ -2048,6 +2048,37 @@ nav.scrolled {
     top: 62% !important; bottom: auto !important;
     height: 2.5px; opacity: 0.6;
   }
+
+  /* ═══════════ 🆕 v6 — animated logo + strike + notif size ═══════════ */
+  /* bigger logo, gold glow ring to separate from cream bg, gentle continuous spin */
+  .nav-logo img {
+    width: 52px !important; height: 52px !important;
+    border: 2.5px solid var(--gold) !important;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.18), 0 4px 16px rgba(201,168,76,0.35);
+    animation: logoBreathe 3.2s ease-in-out infinite, logoGlow 3.2s ease-in-out infinite;
+  }
+  @keyframes logoBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+  @keyframes logoGlow {
+    0%,100% { box-shadow: 0 0 0 3px rgba(201,168,76,0.18), 0 4px 16px rgba(201,168,76,0.30); }
+    50% { box-shadow: 0 0 0 4px rgba(201,168,76,0.30), 0 6px 22px rgba(201,168,76,0.55); }
+  }
+  .nav-logo img:hover { animation-play-state: paused; }
+  @media(max-width:768px){ .nav-logo img { width: 46px !important; height: 46px !important; } }
+
+  /* strike-through up to the MIDDLE of the number */
+  .ba-before::after { top: 48% !important; bottom: auto !important; opacity: 0.62; }
+
+  /* live notification: back to original compact card (not wide), keep new glass */
+  .live-notification {
+    max-width: 260px !important;
+    padding: 12px 15px !important;
+    bottom: 170px !important;
+  }
+  .live-notif-title { font-size: 0.85rem !important; }
+  .live-notif-text { font-size: 0.75rem !important; }
+  .live-notif-icon { width: 34px !important; height: 34px !important; flex-shrink:0; }
+  @media(max-width:768px){ .live-notification { max-width: 250px !important; } }
 </style>
 </head>
 <body>

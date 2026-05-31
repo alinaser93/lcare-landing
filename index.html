@@ -2941,6 +2941,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="form-progress-step"></div>
           <div class="form-progress-step"></div>
           <div class="form-progress-step"></div>
+          <div class="form-progress-step"></div>
         </div>
 
         <div class="form-group">
@@ -3537,7 +3538,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   });
 
   // ── 6. FORM PROGRESS TRACKING (visual feedback as user fills) ──
-  const formInputs = ['f-name', 'f-phone', 'f-condition', 'f-package'];
+  const formInputs = ['f-name', 'f-phone', 'f-email', 'f-condition', 'f-package'];
   const progressSteps = document.querySelectorAll('.form-progress-step');
   function updateFormProgress() {
     let filled = 0;
@@ -3923,11 +3924,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('proofLightboxCap').textContent=cap||'';
     lb.classList.add('active');
     document.body.style.overflow='hidden';
+    // إضافة حالة للسجل حتى يُغلق زر الرجوع الصورة بدل الخروج من الموقع
+    if (!history.state || !history.state.proofOpen) {
+      history.pushState({ proofOpen: true }, '');
+    }
   }
-  function closeProofImg(){
-    document.getElementById('proofLightbox').classList.remove('active');
+  function closeProofImg(fromPop){
+    var lb=document.getElementById('proofLightbox');
+    if(!lb.classList.contains('active')) return;
+    lb.classList.remove('active');
     document.body.style.overflow='';
+    // إذا أُغلقت بزر X أو Escape، نتراجع في السجل لمزامنته
+    if (!fromPop && history.state && history.state.proofOpen) {
+      history.back();
+    }
   }
+  // عند ضغط زر الرجوع: أغلق الصورة بدل مغادرة الموقع
+  window.addEventListener('popstate', function(){
+    var lb=document.getElementById('proofLightbox');
+    if(lb && lb.classList.contains('active')) closeProofImg(true);
+  });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeProofImg(); });
 
   // animate before -> after numbers on scroll

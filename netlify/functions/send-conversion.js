@@ -35,7 +35,7 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || '{}');
-    const { name, phone, email, condition, condition_label, package: pkg, package_value, event_id, event_source_url, fbp, fbc } = body;
+    const { name, phone, email, condition, condition_label, package: pkg, package_value, event_id, event_source_url, fbp, fbc, external_id } = body;
 
     if (!name || !phone) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Missing required fields' }) };
@@ -56,6 +56,7 @@ exports.handler = async (event) => {
       fn: firstName ? [hash(firstName)] : undefined,
       ln: lastName ? [hash(lastName)] : undefined,
       country: [hash('iq')],
+      external_id: external_id ? [hash(external_id)] : undefined,
       client_ip_address: clientIp,
       client_user_agent: userAgent,
       fbp: fbp || undefined,

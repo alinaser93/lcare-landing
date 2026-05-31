@@ -3697,6 +3697,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     return null;
   }
 
+  // External ID — معرّف فريد ثابت لكل زائر (يرفع جودة المطابقة)
+  function getExternalId() {
+    let eid = getCookie('lc_eid');
+    if (!eid) {
+      eid = 'lc_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+      document.cookie = 'lc_eid=' + eid + ';path=/;max-age=63072000;SameSite=Lax';
+    }
+    return eid;
+  }
+
   // FORM SUBMIT — sends to WhatsApp
   function handleSubmit() {
     const name = document.getElementById('f-name').value.trim();
@@ -3734,6 +3744,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
 
     if (typeof fbq !== 'undefined') {
+      // المطابقة المتقدمة — يرسل البكسل بيانات مجزأة لرفع جودة المطابقة
+      try {
+        const amData = { external_id: getExternalId() };
+        if (email) amData.em = email.trim().toLowerCase();
+        if (phone) {
+          let p = phone.replace(/\D/g, '');
+          if (p.startsWith('00')) p = p.slice(2);
+          if (p.startsWith('0')) p = '964' + p.slice(1);
+          else if (!p.startsWith('964')) p = '964' + p;
+          amData.ph = p;
+        }
+        const nm = name.trim().split(/\s+/);
+        if (nm[0]) amData.fn = nm[0].toLowerCase();
+        if (nm.length > 1) amData.ln = nm.slice(1).join(' ').toLowerCase();
+        amData.country = 'iq';
+        fbq('init', '1263336169287572', amData);
+      } catch (e) {}
       fbq('track', 'Lead', {
         content_name: 'subscription_' + conditionLabel,
         content_category: conditionLabel,
@@ -3771,7 +3798,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           event_id: eventId,
           event_source_url: window.location.href,
           fbp: getCookie('_fbp'),
-          fbc: getCookie('_fbc')
+          fbc: getCookie('_fbc'),
+          external_id: getExternalId()
         })
       })
       .then(r => r.json())

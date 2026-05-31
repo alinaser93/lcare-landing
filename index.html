@@ -2954,7 +2954,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="form-group">
           <label class="form-label">البريد الإلكتروني * <span style="opacity:.65;font-weight:400">(لإرسال خطة غذائية تعريفية مجانية + تأكيد موعدك)</span></label>
-          <input type="email" class="form-input" id="f-email" placeholder="example@email.com" style="direction:ltr;text-align:right">
+          <input type="email" class="form-input" id="f-email" placeholder="example@email.com" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" style="direction:ltr;text-align:right">
+          <div id="email-suggest" style="display:none;margin-top:8px;direction:ltr;text-align:right"></div>
+          <div id="email-error" style="display:none;margin-top:6px;color:#d9534f;font-size:0.85rem;font-weight:600;text-align:right"></div>
         </div>
         <div class="form-group">
           <label class="form-label">حالتك *</label>
@@ -3708,6 +3710,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     return eid;
   }
 
+  // ── مساعدة كتابة البريد الإلكتروني (لكبار السن وتقليل الأخطاء) ──
+  (function setupEmailHelper(){
+    const emailEl = document.getElementById('f-email');
+    const suggestEl = document.getElementById('email-suggest');
+    const errorEl = document.getElementById('email-error');
+    if (!emailEl) return;
+    const popularDomains = ['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com'];
+
+    function clearMsgs(){
+      if (suggestEl){ suggestEl.style.display='none'; suggestEl.innerHTML=''; }
+      if (errorEl){ errorEl.style.display='none'; errorEl.textContent=''; }
+    }
+
+    // اقتراح النطاق أثناء الكتابة: ali@gma → ali@gmail.com
+    emailEl.addEventListener('input', function(){
+      clearMsgs();
+      const val = emailEl.value.trim().toLowerCase();
+      const at = val.indexOf('@');
+      if (at < 1) return;
+      const local = val.slice(0, at);
+      const typed = val.slice(at + 1);
+      if (!typed) return;
+      // إذا النطاق مكتمل وصحيح، لا اقتراح
+      if (popularDomains.includes(typed)) return;
+      const match = popularDomains.find(d => d.startsWith(typed) && d !== typed);
+      if (match && suggestEl){
+        const full = local + '@' + match;
+        suggestEl.style.display='block';
+        suggestEl.innerHTML = '<button type="button" style="background:rgba(46,196,182,0.12);border:1px solid rgba(46,196,182,0.4);color:var(--teal,#0F766E);padding:8px 14px;border-radius:10px;font-size:0.9rem;cursor:pointer;font-weight:600">هل تقصد: <span style="direction:ltr;display:inline-block">'+full+'</span> ؟</button>';
+        suggestEl.querySelector('button').onclick = function(){
+          emailEl.value = full;
+          clearMsgs();
+          emailEl.style.borderColor = 'rgba(46,196,182,0.5)';
+        };
+      }
+    });
+
+    // عند مغادرة الحقل: تحقق وأظهر رسالة عربية واضحة
+    emailEl.addEventListener('blur', function(){
+      const val = emailEl.value.trim();
+      if (!val) return;
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      if (!valid && errorEl){
+        errorEl.style.display='block';
+        if (val.indexOf('@') === -1) errorEl.textContent = 'البريد يجب أن يحتوي على علامة @ — مثال: ali@gmail.com';
+        else if (val.indexOf('.') === -1) errorEl.textContent = 'أضف نهاية صحيحة مثل .com — مثال: ali@gmail.com';
+        else errorEl.textContent = 'تأكد من كتابة البريد بشكل صحيح — مثال: ali@gmail.com';
+        emailEl.style.borderColor = 'rgba(255,80,80,0.5)';
+      }
+    });
+  })();
+
   // FORM SUBMIT — sends to WhatsApp
   function handleSubmit() {
     const name = document.getElementById('f-name').value.trim();
@@ -3728,7 +3782,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!emailValid) {
       const el = document.getElementById('f-email');
-      if (el) el.style.borderColor = 'rgba(255,80,80,0.5)';
+      const errBox = document.getElementById('email-error');
+      if (el) {
+        el.style.borderColor = 'rgba(255,80,80,0.5)';
+        el.focus();
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (errBox) {
+        errBox.style.display = 'block';
+        if (!email) errBox.textContent = 'يرجى إدخال بريدك الإلكتروني — مثال: ali@gmail.com';
+        else if (email.indexOf('@') === -1) errBox.textContent = 'البريد يجب أن يحتوي على علامة @ — مثال: ali@gmail.com';
+        else errBox.textContent = 'تأكد من كتابة البريد بشكل صحيح — مثال: ali@gmail.com';
+      }
       return;
     }
 

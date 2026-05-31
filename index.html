@@ -2952,7 +2952,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input type="tel" class="form-input" id="f-phone" placeholder="07xxxxxxxxx" style="direction:ltr;text-align:right">
         </div>
         <div class="form-group">
-          <label class="form-label">البريد الإلكتروني <span style="opacity:.65;font-weight:400">(اختياري — لإرسال خطة غذائية تعريفية مجانية + تأكيد موعدك)</span></label>
+          <label class="form-label">البريد الإلكتروني * <span style="opacity:.65;font-weight:400">(لإرسال خطة غذائية تعريفية مجانية + تأكيد موعدك)</span></label>
           <input type="email" class="form-input" id="f-email" placeholder="example@email.com" style="direction:ltr;text-align:right">
         </div>
         <div class="form-group">
@@ -3715,10 +3715,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const condition = document.getElementById('f-condition').value;
     const package_ = document.getElementById('f-package').value;
 
-    if (!name || !phone || !condition || !package_) {
-      [['f-name',name],['f-phone',phone],['f-condition',condition],['f-package',package_]].forEach(([id,v]) => {
-        document.getElementById(id).style.borderColor = v ? 'rgba(46,196,182,0.5)' : 'rgba(255,80,80,0.5)';
+    if (!name || !phone || !email || !condition || !package_) {
+      [['f-name',name],['f-phone',phone],['f-email',email],['f-condition',condition],['f-package',package_]].forEach(([id,v]) => {
+        const el = document.getElementById(id);
+        if (el) el.style.borderColor = v ? 'rgba(46,196,182,0.5)' : 'rgba(255,80,80,0.5)';
       });
+      return;
+    }
+
+    // التحقق من صيغة البريد الإلكتروني
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailValid) {
+      const el = document.getElementById('f-email');
+      if (el) el.style.borderColor = 'rgba(255,80,80,0.5)';
       return;
     }
 

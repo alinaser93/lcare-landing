@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>تأكيد الاشتراك — Lcare IQ (خاص)</title>
+<style>
+  :root {
+    --gold: #B8860B;
+    --gold-light: #DAA520;
+    --bg: #F5EDDC;
+    --bg2: #FFFAF0;
+    --card: #FFFFFF;
+    --text: #1A1F2E;
+    --text-muted: #5C6363;
+    --teal: #0F766E;
+    --border: rgba(139,105,20,0.15);
+    --ok: #15803d;
+    --err: #d9534f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 16px 60px;
+  }
+  .wrap { width: 100%; max-width: 440px; }
+  .header { text-align: center; margin-bottom: 24px; }
+  .header h1 {
+    font-size: 1.5rem; color: var(--gold); letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .header .badge {
+    display: inline-block; background: rgba(184,134,11,0.12);
+    color: var(--gold); font-size: 0.78rem; padding: 4px 12px;
+    border-radius: 20px; font-weight: 600;
+  }
+  .card {
+    background: var(--card); border-radius: 18px; padding: 28px 22px;
+    box-shadow: 0 12px 40px rgba(139,105,20,0.10);
+    border: 1px solid var(--border);
+  }
+  .field { margin-bottom: 18px; }
+  label { display: block; font-size: 0.92rem; font-weight: 600; margin-bottom: 8px; }
+  label .hint { font-weight: 400; opacity: 0.6; font-size: 0.82rem; }
+  input, select {
+    width: 100%; padding: 13px 14px; font-size: 1rem;
+    border: 1.5px solid var(--border); border-radius: 12px;
+    background: var(--bg2); color: var(--text); outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+  }
+  input:focus, select:focus { border-color: var(--gold-light); }
+  input[dir="ltr"] { direction: ltr; text-align: right; }
+  .btn {
+    width: 100%; padding: 16px; font-size: 1.1rem; font-weight: 700;
+    color: #fff; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    border: none; border-radius: 14px; cursor: pointer; margin-top: 6px;
+    transition: transform 0.15s, opacity 0.2s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .result {
+    margin-top: 18px; padding: 14px 16px; border-radius: 12px;
+    font-size: 0.92rem; font-weight: 600; display: none; line-height: 1.7;
+  }
+  .result.ok { display: block; background: rgba(21,128,61,0.1); color: var(--ok); border: 1px solid rgba(21,128,61,0.25); }
+  .result.err { display: block; background: rgba(217,83,79,0.1); color: var(--err); border: 1px solid rgba(217,83,79,0.25); }
+  .note {
+    font-size: 0.8rem; color: var(--text-muted); text-align: center;
+    margin-top: 20px; line-height: 1.7;
+  }
+  .pkg-value { font-size: 0.82rem; color: var(--teal); margin-top: 6px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>تأكيد اشتراك مدفوع</h1>
+    <div class="badge">🔒 صفحة خاصة — Lcare IQ</div>
+  </div>
+
+  <div class="card">
+    <div class="field">
+      <label>اسم العميل <span class="hint">(كما في النموذج)</span></label>
+      <input type="text" id="p-name" placeholder="مثال: علي حسن محمد">
+    </div>
+
+    <div class="field">
+      <label>رقم هاتف العميل * <span class="hint">(نفس الرقم الذي سجّل به)</span></label>
+      <input type="tel" id="p-phone" dir="ltr" placeholder="07xxxxxxxxx">
+    </div>
+
+    <div class="field">
+      <label>البريد الإلكتروني <span class="hint">(اختياري — إن توفّر)</span></label>
+      <input type="email" id="p-email" dir="ltr" placeholder="example@email.com">
+    </div>
+
+    <div class="field">
+      <label>الباقة المشتراة *</label>
+      <select id="p-package">
+        <option value="">اختر الباقة</option>
+        <option value="silver" data-iqd="95000">الباقة الفضية — 95,000 دينار</option>
+        <option value="gold" data-iqd="145000">الباقة الذهبية — 145,000 دينار</option>
+        <option value="vip" data-iqd="245000">باقة VIP — 245,000 دينار</option>
+      </select>
+      <div class="pkg-value" id="pkg-value"></div>
+    </div>
+
+    <button class="btn" id="p-submit">✅ تأكيد الشراء وإرسال الحدث</button>
+
+    <div class="result" id="p-result"></div>
+  </div>
+
+  <div class="note">
+    استخدم هذه الصفحة فقط بعد تأكيد الدفع الفعلي من العميل.<br>
+    يُرسل الحدث بشكل آمن ومشفّر إلى فيسبوك (Conversions API).
+  </div>
+</div>
+
+<script>
+  const PKG_LABELS = { silver: 'الفضية', gold: 'الذهبية', vip: 'VIP' };
+
+  // عرض قيمة الباقة بالدولار عند الاختيار
+  const pkgSelect = document.getElementById('p-package');
+  pkgSelect.addEventListener('change', function(){
+    const opt = pkgSelect.options[pkgSelect.selectedIndex];
+    const iqd = opt.getAttribute('data-iqd');
+    const box = document.getElementById('pkg-value');
+    if (iqd) {
+      const usd = Math.round((Number(iqd) / 1310) * 100) / 100;
+      box.textContent = 'القيمة المرسلة لفيسبوك: ' + usd + ' USD (' + Number(iqd).toLocaleString() + ' دينار)';
+    } else { box.textContent = ''; }
+  });
+
+  document.getElementById('p-submit').addEventListener('click', async function(){
+    const btn = this;
+    const name = document.getElementById('p-name').value.trim();
+    const phone = document.getElementById('p-phone').value.trim();
+    const email = document.getElementById('p-email').value.trim();
+    const opt = pkgSelect.options[pkgSelect.selectedIndex];
+    const pkg = pkgSelect.value;
+    const iqd = opt ? opt.getAttribute('data-iqd') : '';
+    const result = document.getElementById('p-result');
+    result.className = 'result';
+
+    if (!phone || !pkg) {
+      result.className = 'result err';
+      result.textContent = '⚠️ يرجى إدخال رقم الهاتف واختيار الباقة على الأقل.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '⏳ جارٍ الإرسال...';
+
+    // event_id فريد لكل عملية شراء (لمنع التكرار)
+    const eventId = 'purchase_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+
+    try {
+      const res = await fetch('/.netlify/functions/send-conversion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event_name: 'Purchase',
+          name: name || 'عميل',
+          phone: phone,
+          email: email,
+          condition: '',
+          condition_label: PKG_LABELS[pkg] || pkg,
+          package: pkg,
+          package_value: Number(iqd) || 0,
+          event_id: eventId,
+          event_source_url: 'https://lcareiq.com'
+        })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        result.className = 'result ok';
+        result.innerHTML = '✅ تم تسجيل الشراء بنجاح!<br>'
+          + 'استلم فيسبوك الحدث (events_received: ' + (data.events_received || 1) + ')<br>'
+          + 'fbtrace_id: ' + (data.fbtrace_id || '—');
+        // تفريغ الحقول للعملية التالية
+        document.getElementById('p-name').value = '';
+        document.getElementById('p-phone').value = '';
+        document.getElementById('p-email').value = '';
+        pkgSelect.value = '';
+        document.getElementById('pkg-value').textContent = '';
+      } else {
+        result.className = 'result err';
+        result.textContent = '❌ فشل الإرسال: ' + (data.error || 'خطأ غير معروف');
+      }
+    } catch (e) {
+      result.className = 'result err';
+      result.textContent = '❌ خطأ في الاتصال: ' + e.message;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '✅ تأكيد الشراء وإرسال الحدث';
+    }
+  });
+</script>
+</body>
+</html>

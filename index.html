@@ -3354,10 +3354,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('conditionModal').classList.add('active');
     document.body.style.overflow = 'hidden';
     // 🎯 Rich tracking: ViewContent with full condition data for ad targeting
-    trackEvent('ViewContent', 'condition_' + key, {
-      condition: CONDITION_LABELS[key] || key,
-      condition_key: key,
-      content_type: 'health_condition',
+    trackEvent('ViewContent', 'plan_view', {
+      content_type: 'product',
       button_type: 'condition_card_open'
     });
     // 👇 Push history state so back button closes the modal instead of leaving site
@@ -3389,10 +3387,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       pkgSelect.value = conditions[currentCondition].package;
     }
     closeModal();
-    trackEvent('AddToCart', 'modal_select_' + currentCondition, {
-      condition: CONDITION_LABELS[currentCondition] || currentCondition,
-      condition_key: currentCondition,
+    trackEvent('AddToCart', 'modal_select_package', {
       package: conditions[currentCondition]?.package,
+      content_type: 'product',
       button_type: 'modal_select_package'
     });
   }
@@ -3416,10 +3413,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 أرجو التواصل معي لإكمال التسجيل وإرسال الأسئلة التشخيصية. شكراً لك 🌿`;
     const wa = `https://wa.me/9647838967935?text=${encodeURIComponent(msg)}`;
-    trackEvent('Lead', 'modal_register_' + currentCondition, {
-      condition: CONDITION_LABELS[currentCondition] || currentCondition,
-      condition_key: currentCondition,
+    trackEvent('Lead', 'modal_register', {
       package: c.package,
+      content_type: 'product',
       value: c.package === 'vip' ? 187 : c.package === 'gold' ? 111 : 73,
       currency: 'USD',
       button_type: 'modal_register_whatsapp'
@@ -3440,9 +3436,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 عندي بعض الأسئلة قبل اتخاذ قرار الاشتراك. هل يمكن مساعدتي؟ شكراً 🌿`;
     const wa = `https://wa.me/9647838967935?text=${encodeURIComponent(msg)}`;
-    trackEvent('Contact', 'whatsapp_modal_' + currentCondition, {
-      condition: CONDITION_LABELS[currentCondition] || currentCondition,
-      condition_key: currentCondition,
+    trackEvent('Contact', 'whatsapp_modal_consult', {
+      content_type: 'product',
       button_type: 'modal_consult_whatsapp'
     });
     window.open(wa, '_blank');
@@ -3847,18 +3842,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         fbq('init', '1263336169287572', amData);
       } catch (e) {}
       fbq('track', 'Lead', {
-        content_name: 'subscription_' + conditionLabel,
-        content_category: conditionLabel,
-        condition: conditionLabel,
-        condition_key: condition,
+        content_name: 'subscription_lead',
+        content_type: 'product',
         package: package_,
         value: leadValueUsd,
         currency: 'USD',
         button_type: 'form_submission'
       }, { eventID: eventId });
       fbq('track', 'CompleteRegistration', {
-        content_name: 'subscription_' + conditionLabel,
-        condition: conditionLabel,
+        content_name: 'subscription_registration',
+        content_type: 'product',
         package: package_,
         value: leadValueUsd,
         currency: 'USD'
@@ -3876,8 +3869,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           name: name,
           phone: phone,
           email: email,
-          condition: condition,
-          condition_label: conditionLabel,
           package: package_,
           package_value: leadValue,
           event_id: eventId,

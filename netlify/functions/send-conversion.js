@@ -35,11 +35,14 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || '{}');
-    const { name, phone, email, condition, condition_label, package: pkg, package_value, event_id, event_source_url, fbp, fbc, external_id } = body;
+    const { name, phone, email, condition, condition_label, package: pkg, package_value, event_id, event_source_url, fbp, fbc, external_id, event_name } = body;
 
     if (!name || !phone) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Missing required fields' }) };
     }
+
+    // نوع الحدث: Lead (افتراضي من الموقع) أو Purchase (من صفحة التأكيد اليدوية)
+    const eventName = (event_name === 'Purchase') ? 'Purchase' : 'Lead';
 
     const nameParts = String(name).trim().split(/\s+/);
     const firstName = nameParts[0];
@@ -68,14 +71,14 @@ exports.handler = async (event) => {
     const payload = {
       data: [
         {
-          event_name: 'Lead',
+          event_name: eventName,
           event_time: Math.floor(Date.now() / 1000),
           event_id: event_id,
           action_source: 'website',
           event_source_url: event_source_url || 'https://lcareiq.com',
           user_data: user_data,
           custom_data: {
-            content_name: 'subscription_' + (condition_label || condition || ''),
+            content_name: (eventName === 'Purchase' ? 'purchase_' : 'subscription_') + (condition_label || condition || ''),
             content_category: condition_label || condition || '',
             package: pkg || '',
             value: iqdToUsd(package_value),

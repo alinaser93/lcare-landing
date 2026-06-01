@@ -2298,6 +2298,16 @@ nav.scrolled {
 </head>
 <body>
 
+<!-- 📋 نموذج Netlify المخفي — لجمع بيانات العملاء (يصلك على البريد + تصدير CSV من لوحة Netlify) -->
+<form name="leads" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" />
+  <input type="tel" name="phone" />
+  <input type="email" name="email" />
+  <input type="text" name="condition" />
+  <input type="text" name="package" />
+  <input type="text" name="bot-field" />
+</form>
+
 <!-- 🚀 GOOGLE TAG MANAGER (noscript) — GTM-PN5PP4X6 -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PN5PP4X6"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -3882,6 +3892,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       .catch(e => console.warn('⚠️ Conversions API لم يصل (سيعتمد على البكسل):', e));
     } catch (e) {
       console.warn('⚠️ تعذّر استدعاء Conversions API:', e);
+    }
+
+    // 📋 حفظ بيانات العميل في Netlify Forms (يصلك على البريد + تصدير CSV)
+    try {
+      const formData = new URLSearchParams();
+      formData.append('form-name', 'leads');
+      formData.append('name', name);
+      formData.append('phone', phone);
+      formData.append('email', email);
+      formData.append('condition', conditionLabel);
+      formData.append('package', package_);
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+      })
+      .then(() => console.log('✅ تم حفظ بيانات العميل'))
+      .catch(e => console.warn('⚠️ تعذّر حفظ البيانات:', e));
+    } catch (e) {
+      console.warn('⚠️ خطأ في حفظ البيانات:', e);
     }
 
     // 🎵 TikTok Pixel: Lead + CompleteRegistration events

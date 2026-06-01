@@ -68,6 +68,28 @@ exports.handler = async (event) => {
 
     Object.keys(user_data).forEach(k => user_data[k] === undefined && delete user_data[k]);
 
+    // custom_data: حدث Purchase يكون "نظيفاً" بلا أي بيانات صحية (سياسة فيسبوك للبيانات الصحية)
+    // أما Lead فيحتفظ بالتصنيف لأنه أقل حساسية ومفيد للاستهداف الأولي
+    let customData;
+    if (eventName === 'Purchase') {
+      // لا اسم مرض، لا تصنيف صحي — فقط قيمة وعملة وباقة محايدة
+      customData = {
+        content_name: 'subscription_purchase',
+        content_type: 'product',
+        package: pkg || '',
+        value: iqdToUsd(package_value),
+        currency: 'USD'
+      };
+    } else {
+      customData = {
+        content_name: 'subscription_' + (condition_label || condition || ''),
+        content_category: condition_label || condition || '',
+        package: pkg || '',
+        value: iqdToUsd(package_value),
+        currency: 'USD'
+      };
+    }
+
     const payload = {
       data: [
         {
@@ -77,13 +99,7 @@ exports.handler = async (event) => {
           action_source: 'website',
           event_source_url: event_source_url || 'https://lcareiq.com',
           user_data: user_data,
-          custom_data: {
-            content_name: (eventName === 'Purchase' ? 'purchase_' : 'subscription_') + (condition_label || condition || ''),
-            content_category: condition_label || condition || '',
-            package: pkg || '',
-            value: iqdToUsd(package_value),
-            currency: 'USD'
-          }
+          custom_data: customData
         }
       ]
     };

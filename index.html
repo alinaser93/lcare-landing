@@ -3114,24 +3114,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     other: 'other_condition'
   };
 
-  // Standard FB events that should use 'track' (not 'trackCustom')
-  const FB_STANDARD_EVENTS = ['Lead', 'CompleteRegistration', 'Contact', 'ViewContent', 'AddToCart', 'InitiateCheckout', 'Purchase', 'Search', 'Subscribe'];
+  // الموقع مصنّف صحياً لدى Meta → الأحداث القياسية (Lead/Purchase/AddToCart...) محظورة.
+  // نحوّلها إلى أحداث مخصّصة بأسماء محايدة، نظيفة تماماً من أي بيانات صحية.
+  const FB_NEUTRAL_EVENTS = {
+    'Lead': 'cv_signup',
+    'CompleteRegistration': 'cv_register',
+    'InitiateCheckout': 'cv_intent',
+    'AddToCart': 'cv_select',
+    'ViewContent': 'cv_view',
+    'Purchase': 'cv_subscribe',
+    'Contact': 'cv_contact',
+    'Subscribe': 'cv_subscribe'
+  };
 
   function trackEvent(eventName, label, extraParams) {
-    // Build rich parameters for ad targeting
+    // معاملات عامة (للتحليلات فقط — خالية من أي إشارة صحية)
     const params = Object.assign({
       source: label,
       content_name: label,
-      content_category: extraParams?.condition || (label && label.includes('_') ? label.split('_').slice(1).join('_') : 'general')
+      content_category: 'general'
     }, extraParams || {});
+    delete params.condition; // أمان: لا نمرّر أي حالة صحية لأي منصة إعلانية
 
-    // Facebook Pixel — use Standard events when possible (much better for ads)
+    // Meta — أحداث مخصّصة محايدة فقط (حمولة نظيفة)
     if (typeof fbq !== 'undefined') {
-      if (FB_STANDARD_EVENTS.includes(eventName)) {
-        fbq('track', eventName, params);
-      } else {
-        fbq('trackCustom', eventName, params);
-      }
+      const fbEvent = FB_NEUTRAL_EVENTS[eventName] || eventName;
+      const fbParams = { source: label };
+      if (typeof params.value === 'number') { fbParams.value = params.value; fbParams.currency = params.currency || 'USD'; }
+      fbq('trackCustom', fbEvent, fbParams);
     }
     // Google Analytics 4 (via GTM dataLayer)
     if (typeof window.dataLayer !== 'undefined') {
@@ -3805,10 +3815,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     // 🎯 GTM/GA4: Send Lead event to Data Layer
     if (typeof dataLayer !== 'undefined') {
       dataLayer.push({
-        'event': 'Lead',
+        'event': 'generate_lead',
         'event_category': 'form_submission',
         'event_label': 'register_form',
-        'condition': condition,
         'package': package_
       });
       console.log('✅ Lead event sent to GTM/GA4');
@@ -3841,21 +3850,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         amData.country = 'iq';
         fbq('init', '1263336169287572', amData);
       } catch (e) {}
-      fbq('track', 'Lead', {
-        content_name: 'subscription_lead',
-        content_type: 'product',
-        package: package_,
-        value: leadValueUsd,
-        currency: 'USD',
-        button_type: 'form_submission'
-      }, { eventID: eventId });
-      fbq('track', 'CompleteRegistration', {
-        content_name: 'subscription_registration',
-        content_type: 'product',
-        package: package_,
+      // حدث مخصّص محايد بدل Lead/CompleteRegistration القياسيين المحظورين
+      // (نظيف تماماً: قيمة وعملة فقط، بلا أي إشارة للحالة الصحية)
+      fbq('trackCustom', 'cv_signup', {
+        content_name: 'subscription',
         value: leadValueUsd,
         currency: 'USD'
-      });
+      }, { eventID: eventId });
     }
 
     // 🔐 CONVERSIONS API: إرسال البيانات من الخادم (Netlify Function) بشكل آمن
@@ -3866,6 +3867,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          event_name: 'cv_signup',
           name: name,
           phone: phone,
           email: email,
@@ -3908,14 +3910,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     // 🎵 TikTok Pixel: Lead + CompleteRegistration events
     if (typeof ttq !== 'undefined') {
       ttq.track('SubmitForm', {
-        content_name: 'subscription_' + conditionLabel,
-        content_category: conditionLabel,
-        value: leadValueUsd,
-        currency: 'USD'
-      });
-      ttq.track('CompleteRegistration', {
-        content_name: 'subscription_' + conditionLabel,
-        content_category: conditionLabel,
+        content_name: 'subscription',
         value: leadValueUsd,
         currency: 'USD'
       });

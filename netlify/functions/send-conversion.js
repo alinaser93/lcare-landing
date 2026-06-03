@@ -2,7 +2,7 @@ const crypto = require('crypto');
 
 const PIXEL_ID = '1263336169287572';
 
-// تحويل الدينار العراقي إلى دولار (فيسبوك يدعم USD رسمياً، IQD لا)
+// تحويل الدينار العراقي إلى دولار (Meta يدعم USD رسمياً، IQD لا)
 // السعر التقريبي: 1310 IQD = 1 USD
 function iqdToUsd(iqd) {
   if (!iqd) return 0;
@@ -23,6 +23,19 @@ function normalizeIraqiPhone(raw) {
   return digits;
 }
 
+// أسماء أحداث محايدة فقط — الموقع مصنّف صحياً لدى Meta،
+// والأحداث القياسية (Lead/Purchase) محظورة. نستخدم أحداثاً مخصّصة محايدة.
+function neutralEventName(name) {
+  const map = {
+    'Purchase': 'cv_subscribe',
+    'Subscribe': 'cv_subscribe',
+    'Lead': 'cv_signup',
+    'CompleteRegistration': 'cv_register'
+  };
+  if (!name) return 'cv_signup';
+  return map[name] || name; // يسمح بأسماء cv_* المرسلة مباشرة
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
@@ -35,14 +48,14 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || '{}');
-    const { name, phone, email, condition, condition_label, package: pkg, package_value, event_id, event_source_url, fbp, fbc, external_id, event_name } = body;
+    // ملاحظة: لا نستقبل ولا نرسل أي حقل "condition" أو حالة صحية إطلاقاً
+    const { name, phone, email, package: pkg, package_value, event_id, event_source_url, fbp, fbc, external_id, event_name } = body;
 
     if (!name || !phone) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Missing required fields' }) };
     }
 
-    // نوع الحدث: Lead (افتراضي من الموقع) أو Purchase (من صفحة التأكيد اليدوية)
-    const eventName = (event_name === 'Purchase') ? 'Purchase' : 'Lead';
+    const eventName = neutralEventName(event_name);
 
     const nameParts = String(name).trim().split(/\s+/);
     const firstName = nameParts[0];
@@ -53,6 +66,7 @@ exports.handler = async (event) => {
       (event.headers['x-forwarded-for'] || '').split(',')[0].trim() || undefined;
     const userAgent = event.headers['user-agent'] || undefined;
 
+    // بيانات المطابقة (PII مجزّأة SHA-256 — مسموحة، وترفع جودة المطابقة EMQ)
     const user_data = {
       em: email ? [hash(email)] : undefined,
       ph: normalizedPhone ? [hash(normalizedPhone)] : undefined,
@@ -65,30 +79,17 @@ exports.handler = async (event) => {
       fbp: fbp || undefined,
       fbc: fbc || undefined
     };
-
     Object.keys(user_data).forEach(k => user_data[k] === undefined && delete user_data[k]);
 
-    // custom_data: حدث Purchase يكون "نظيفاً" بلا أي بيانات صحية (سياسة فيسبوك للبيانات الصحية)
-    // أما Lead فيحتفظ بالتصنيف لأنه أقل حساسية ومفيد للاستهداف الأولي
-    let customData;
-    if (eventName === 'Purchase') {
-      // لا اسم مرض، لا تصنيف صحي — فقط قيمة وعملة وباقة محايدة
-      customData = {
-        content_name: 'subscription_purchase',
-        content_type: 'product',
-        package: pkg || '',
-        value: iqdToUsd(package_value),
-        currency: 'USD'
-      };
-    } else {
-      customData = {
-        content_name: 'subscription_' + (condition_label || condition || ''),
-        content_category: condition_label || condition || '',
-        package: pkg || '',
-        value: iqdToUsd(package_value),
-        currency: 'USD'
-      };
-    }
+    // custom_data نظيفة تماماً: قيمة + عملة + اسم باقة محايد. لا حالة، لا تشخيص.
+    const usd = iqdToUsd(package_value);
+    const customData = {
+      content_name: 'subscription',
+      content_type: 'product',
+      currency: 'USD'
+    };
+    if (usd > 0) customData.value = usd;          // قيمة رقمية صحيحة (تُرسل مع العملة دائماً)
+    if (pkg) customData.package = String(pkg);    // باقة (silver/gold/vip) — ليست بيانات صحية
 
     const payload = {
       data: [

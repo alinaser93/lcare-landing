@@ -3887,6 +3887,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       console.warn('⚠️ تعذّر استدعاء Conversions API:', e);
     }
 
+    // 💾 حفظ الاشتراك محلياً للوحة الطلبات o.html (يلتقط تسجيلات نفس الجهاز)
+    try {
+      var lcOrder = {
+        id: eventId,
+        ts: Date.now(),
+        name: name,
+        phone: phone,
+        email: email || '',
+        package: package_,
+        packageValue: leadValue,
+        condition: conditionLabel,   // للاستخدام الداخلي فقط — لا يُرسَل لـ Meta أبداً
+        status: 'pending'
+      };
+      var lcList = JSON.parse(localStorage.getItem('lc_orders') || '[]');
+      lcList.unshift(lcOrder);
+      localStorage.setItem('lc_orders', JSON.stringify(lcList));
+    } catch (e) {}
+
     // 📋 حفظ بيانات العميل في Netlify Forms (يصلك على البريد + تصدير CSV)
     try {
       const formData = new URLSearchParams();

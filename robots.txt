@@ -1,4 +1,26 @@
 User-agent: *
 Allow: /
+Disallow: /o
+Disallow: /o.html
+Disallow: /p
+Disallow: /p.html
+
+# محرّكات الذكاء الاصطناعي (AEO) — مسموح صراحةً بالزحف
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
 
 Sitemap: https://lcareiq.com/sitemap.xml

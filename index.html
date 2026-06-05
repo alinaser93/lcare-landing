@@ -3423,7 +3423,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 أرجو التواصل معي لإكمال التسجيل وإرسال الأسئلة التشخيصية. شكراً لك 🌿`;
     const wa = `https://wa.me/9647838967935?text=${encodeURIComponent(msg)}`;
-    trackEvent('Lead', 'modal_register', {
+    // ⚠️ هذا الزر يفتح الواتساب فقط ولا يحفظ في Netlify. لذلك نطلق نيّة (cv_intent)
+    // وليس تسجيلاً (cv_signup). يبقى cv_signup حصراً للاستمارة الحقيقية في handleSubmit().
+    trackEvent('InitiateCheckout', 'modal_register', {
       package: c.package,
       content_type: 'product',
       value: c.package === 'vip' ? 187 : c.package === 'gold' ? 111 : 73,

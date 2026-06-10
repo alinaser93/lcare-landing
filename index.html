@@ -2730,7 +2730,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li class="feat-item"><div class="feat-check">✓</div><div>متابعة <strong>يومية</strong> لالتزامك الغذائي والدوائي</div></li>
           <li class="feat-item"><div class="feat-check">✓</div><div>توجيه مستمر من الصيدلاني المختص</div></li>
         </ul>
-        <div class="package-promise">💎 وعدنا: استقرار ملحوظ في السكر خلال أسبوعين</div>
+        <div class="package-promise">💎 هدفنا معك: استقرار تدريجي تتابعه بالأرقام أسبوعاً بأسبوع</div>
         <a href="#register" class="package-btn" onclick="selectPackage('silver')">احجز هذه الباقة</a>
       </div>
 
@@ -4077,149 +4077,174 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      ثيم ليلي ملكي + العمود اللولبي + بطاقات زجاجية + كشف متدرّج
      ============================================================ -->
 <style id="premium-skin">
-  /* ---------- لوحة الليل الملكي ---------- */
-  :is([data-theme="dark"],html.pm-dark){
-    --bg:#070B17; --bg-2:#0B1124; --surface:rgba(255,255,255,.035);
+  /* ====== متغيرات الثيمين (توأمان بنفس البنية) ====== */
+  html.pm-dark{
+    --bg:#070B17; --bg-2:#0B1124;
     --text:#C7CEE4; --text-strong:#F2F5FF; --text-muted:#8B94B5;
     --gold:#E9C46A; --gold-light:#F6DC9A; --gold-dark:#B8893B;
     --teal:#1FB8A6; --teal-light:#3CE8D0; --teal-dark:#0E6E63;
     --line:rgba(233,196,106,.16);
-  }
-  :is([data-theme="dark"],html.pm-dark) body{
-    background:
+    --glass-a:rgba(20,27,52,.72); --glass-b:rgba(13,19,38,.86);
+    --card-shadow:0 14px 44px rgba(2,6,18,.55);
+    --field-bg:rgba(255,255,255,.05); --field-bg-f:rgba(255,255,255,.08);
+    --menu-bg:#0D1326; --dot:rgba(233,196,106,.10);
+    --btn-ink:#1B1305;
+    --stage:
       radial-gradient(1100px 520px at 85% -8%, rgba(233,196,106,.07), transparent 60%),
       radial-gradient(900px 600px at -10% 30%, rgba(31,184,166,.06), transparent 55%),
-      var(--bg);
+      #070B17;
   }
-  /* شبكة نقاط خافتة كأرضية المسرح */
-  :is([data-theme="dark"],html.pm-dark) body::before{
-    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
-    background-image:radial-gradient(rgba(233,196,106,.10) 1px, transparent 1.4px);
-    background-size:34px 34px; opacity:.5;
-    mask-image:radial-gradient(ellipse 90% 70% at 50% 35%, #000 35%, transparent 100%);
-    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 35%, #000 35%, transparent 100%);
+  html.pm-light{
+    --bg:#FBF7ED; --bg-2:#F5EEDD;
+    --text:#5A5138; --text-strong:#241D0C; --text-muted:#8A7C5A;
+    --gold:#B8860B; --gold-light:#D7A93C; --gold-dark:#8B6914;
+    --teal:#0F766E; --teal-light:#17A99A; --teal-dark:#0B4F49;
+    --line:rgba(146,107,20,.22);
+    --glass-a:rgba(255,255,255,.78); --glass-b:rgba(255,252,243,.62);
+    --card-shadow:0 14px 40px rgba(130,98,28,.14);
+    --field-bg:rgba(255,255,255,.75); --field-bg-f:#FFFFFF;
+    --menu-bg:#FFFDF6; --dot:rgba(146,107,20,.15);
+    --btn-ink:#241B05;
+    --stage:
+      radial-gradient(1100px 520px at 85% -8%, rgba(215,169,60,.12), transparent 60%),
+      radial-gradient(900px 600px at -10% 30%, rgba(15,118,110,.07), transparent 55%),
+      #FBF7ED;
+  }
+
+  /* ====== المسرح الموحّد ====== */
+  :is(html.pm-dark,html.pm-light) body{ background:var(--stage); position:relative; }
+  :is(html.pm-dark,html.pm-light) body::before{
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:radial-gradient(var(--dot) 1px, transparent 1.4px);
+    background-size:34px 34px; opacity:.55;
+  }
+  /* إيقاف مؤثرات الخلفية القديمة الثقيلة */
+  :is(html.pm-dark,html.pm-light) :is(#particles,.mesh-orb,.mesh-orb-1,.mesh-orb-2,.mesh-orb-3){ display:none !important; }
+  /* مسرح مفتوح: خلفيات الأقسام شفافة ليجري اللولب خلف البطاقات */
+  :is(html.pm-dark,html.pm-light) :is(.pain-section,.conditions-section,.about-section,.results-section,.packages-section,.testimonials-section,.guarantee-section,.faq-section,.register-section,#counter-section){
+    background:transparent !important;
   }
   section, footer, header{ position:relative; z-index:2; }
 
-  /* ---------- التايبوغرافي: حضور Display ---------- */
-  :is([data-theme="dark"],html.pm-dark) .hero-line{
+  /* ====== التايبوغرافي ====== */
+  :is(html.pm-dark,html.pm-light) .hero-line{
     font-family:'Cairo','Tajawal',sans-serif; font-weight:900;
     font-size:clamp(2.2rem,7.2vw,4.4rem); line-height:1.18; letter-spacing:-.5px;
-    text-shadow:0 2px 30px rgba(233,196,106,.18);
   }
-  :is([data-theme="dark"],html.pm-dark) .section-title{
+  html.pm-dark .hero-line{ text-shadow:0 2px 30px rgba(233,196,106,.18); }
+  :is(html.pm-dark,html.pm-light) .section-title{
     font-family:'Cairo','Tajawal',sans-serif; font-weight:800;
     font-size:clamp(1.7rem,4.6vw,2.7rem); line-height:1.3; letter-spacing:-.3px;
   }
-  :is([data-theme="dark"],html.pm-dark) .highlight{
+  :is(html.pm-dark,html.pm-light) .highlight{
     background:linear-gradient(120deg,var(--gold-light),var(--gold) 55%,var(--teal-light));
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
-  :is([data-theme="dark"],html.pm-dark) .section-tag{
+  :is(html.pm-dark,html.pm-light) .section-tag{
     display:inline-flex; align-items:center; gap:8px;
     padding:7px 16px; border-radius:999px; font-weight:700; font-size:.82rem; letter-spacing:1px;
-    color:var(--gold-light); background:rgba(233,196,106,.07);
-    border:1px solid rgba(233,196,106,.28);
-    box-shadow:0 0 22px rgba(233,196,106,.12) inset, 0 0 18px rgba(233,196,106,.08);
+    color:var(--gold-dark); background:rgba(233,196,106,.10);
+    border:1px solid var(--line);
   }
-  :is([data-theme="dark"],html.pm-dark) .section-tag::before{
+  html.pm-dark .section-tag{ color:var(--gold-light); box-shadow:0 0 18px rgba(233,196,106,.08); }
+  :is(html.pm-dark,html.pm-light) .section-tag::before{
     content:""; width:7px; height:7px; border-radius:50%;
     background:var(--teal-light); box-shadow:0 0 10px var(--teal-light);
   }
 
-  /* ---------- البطاقات الزجاجية المتوهّجة ---------- */
-  :is([data-theme="dark"],html.pm-dark) :is(.pain-card,.condition-card,.testimonial-card,.faq-item,.package-card,.form-card,.guarantee-badge,.visitor-counter,.counter-item,.credential-item,.prestige-item){
-    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)) !important;
+  /* ====== البطاقات الزجاجية (بلا backdrop-filter — أداء أولاً) ====== */
+  :is(html.pm-dark,html.pm-light) :is(.pain-card,.condition-card,.testimonial-card,.faq-item,.package-card,.form-card,.guarantee-badge,.visitor-counter,.counter-item,.credential-item,.prestige-item){
+    background:linear-gradient(180deg,var(--glass-a),var(--glass-b)) !important;
     border:1px solid var(--line) !important;
-    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
     border-radius:18px;
-    box-shadow:0 14px 44px rgba(2,6,18,.55);
-    transition:transform .35s cubic-bezier(.2,.8,.25,1), border-color .35s, box-shadow .35s;
+    box-shadow:var(--card-shadow);
+    transition:transform .3s cubic-bezier(.2,.8,.25,1), border-color .3s, box-shadow .3s;
   }
-  :is([data-theme="dark"],html.pm-dark) :is(.pain-card,.condition-card,.testimonial-card,.package-card):hover{
-    transform:translateY(-7px);
-    border-color:rgba(233,196,106,.5) !important;
-    box-shadow:0 22px 60px rgba(2,6,18,.6), 0 0 0 1px rgba(233,196,106,.25), 0 0 38px rgba(233,196,106,.14);
+  :is(html.pm-dark,html.pm-light) :is(.pain-card,.condition-card,.testimonial-card,.package-card):hover{
+    transform:translateY(-6px);
+    border-color:rgba(233,196,106,.55) !important;
+    box-shadow:var(--card-shadow), 0 0 0 1px rgba(233,196,106,.25);
   }
-  /* الباقة المميزة: هالة فيروزية تتنفس */
-  :is([data-theme="dark"],html.pm-dark) .package-card:has(.package-badge){
-    border-color:rgba(60,232,208,.45) !important;
-    box-shadow:0 18px 55px rgba(2,6,18,.6), 0 0 0 1px rgba(60,232,208,.35), 0 0 44px rgba(60,232,208,.16);
-    animation:pmBreath 3.6s ease-in-out infinite;
-  }
-  @keyframes pmBreath{
-    0%,100%{box-shadow:0 18px 55px rgba(2,6,18,.6),0 0 0 1px rgba(60,232,208,.35),0 0 38px rgba(60,232,208,.14)}
-    50%{box-shadow:0 18px 55px rgba(2,6,18,.6),0 0 0 1px rgba(60,232,208,.55),0 0 60px rgba(60,232,208,.26)}
+  /* الباقة المميزة: هالة فيروزية هادئة (بلا أنيميشن مستمر) */
+  :is(html.pm-dark,html.pm-light) .package-card:has(.package-badge){
+    border-color:color-mix(in srgb, var(--teal-light) 55%, transparent) !important;
+    box-shadow:var(--card-shadow), 0 0 0 1px color-mix(in srgb, var(--teal-light) 40%, transparent), 0 0 34px color-mix(in srgb, var(--teal-light) 18%, transparent);
   }
 
-  /* ---------- أزرار من ذهب مصقول ---------- */
-  :is([data-theme="dark"],html.pm-dark) :is(.submit-btn,.mobile-cta-btn,.hero-cta-wrap a,.hero-cta-wrap button){
+  /* ====== أزرار الذهب المصقول ====== */
+  :is(html.pm-dark,html.pm-light) :is(.submit-btn,.mobile-cta-btn,.hero-cta-wrap a,.hero-cta-wrap button){
     background:linear-gradient(135deg,#F8E3A8,#E9C46A 48%,#C2913C) !important;
-    color:#1B1305 !important; font-weight:800;
+    color:var(--btn-ink) !important; font-weight:800;
     border:0; border-radius:14px;
-    box-shadow:0 10px 30px rgba(233,196,106,.32), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 0 rgba(0,0,0,.18);
-    transition:transform .25s, box-shadow .25s, filter .25s;
+    box-shadow:0 10px 26px rgba(190,140,40,.30), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 0 rgba(0,0,0,.15);
+    transition:transform .22s, box-shadow .22s;
   }
-  :is([data-theme="dark"],html.pm-dark) :is(.submit-btn,.mobile-cta-btn,.hero-cta-wrap a):hover{
-    transform:translateY(-3px); filter:saturate(1.08);
-    box-shadow:0 16px 42px rgba(233,196,106,.45), inset 0 1px 0 rgba(255,255,255,.6);
+  :is(html.pm-dark,html.pm-light) :is(.submit-btn,.mobile-cta-btn,.hero-cta-wrap a):hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 38px rgba(190,140,40,.42), inset 0 1px 0 rgba(255,255,255,.6);
   }
 
-  /* ---------- استمارة كصندوق مجوهرات ---------- */
-  :is([data-theme="dark"],html.pm-dark) .form-card{ padding-top:26px; }
-  :is([data-theme="dark"],html.pm-dark) :is(.form-input,.form-select){
-    background:rgba(255,255,255,.045) !important;
-    border:1px solid rgba(233,196,106,.22) !important;
+  /* ====== الاستمارة ====== */
+  :is(html.pm-dark,html.pm-light) :is(.form-input,.form-select){
+    background:var(--field-bg) !important;
+    border:1px solid var(--line) !important;
     color:var(--text-strong) !important; border-radius:12px;
-    transition:border-color .25s, box-shadow .25s, background .25s;
+    transition:border-color .22s, box-shadow .22s, background .22s;
   }
-  :is([data-theme="dark"],html.pm-dark) :is(.form-input,.form-select):focus{
+  :is(html.pm-dark,html.pm-light) :is(.form-input,.form-select):focus{
     outline:none; border-color:var(--gold) !important;
-    box-shadow:0 0 0 3px rgba(233,196,106,.18), 0 0 24px rgba(233,196,106,.10);
-    background:rgba(255,255,255,.07) !important;
+    box-shadow:0 0 0 3px rgba(233,196,106,.20);
+    background:var(--field-bg-f) !important;
   }
-  :is([data-theme="dark"],html.pm-dark) .form-select option{ background:#0D1326; color:var(--text-strong); }
-  :is([data-theme="dark"],html.pm-dark) ::placeholder{ color:#7d86a8 !important; opacity:1; }
+  :is(html.pm-dark,html.pm-light) .form-select option{ background:var(--menu-bg); color:var(--text-strong); }
+  html.pm-dark ::placeholder{ color:#7d86a8 !important; opacity:1; }
+  html.pm-light ::placeholder{ color:#A39368 !important; opacity:1; }
 
-  /* ---------- لمسات عامة ---------- */
-  :is([data-theme="dark"],html.pm-dark) ::selection{ background:rgba(233,196,106,.35); color:#0B0F1F; }
-  :is([data-theme="dark"],html.pm-dark) ::-webkit-scrollbar{ width:10px }
-  :is([data-theme="dark"],html.pm-dark) ::-webkit-scrollbar-track{ background:#0A0F20 }
-  :is([data-theme="dark"],html.pm-dark) ::-webkit-scrollbar-thumb{ background:linear-gradient(var(--gold-dark),var(--gold)); border-radius:8px }
+  :is(html.pm-dark,html.pm-light) ::selection{ background:rgba(233,196,106,.35); }
 
-  /* ---------- العمود اللولبي ---------- */
+  /* ====== العمود اللولبي ====== */
   #pm-spine{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:visible; }
   #pm-spine svg{ position:absolute; top:0; right:0; width:100%; height:100%; display:block; }
-  #pm-comet{ filter:drop-shadow(0 0 6px var(--gold-light)) drop-shadow(0 0 16px var(--gold)); transition:fill .4s; }
-  #pm-comet.pm-arrived{ fill:var(--teal-light); filter:drop-shadow(0 0 8px var(--teal-light)) drop-shadow(0 0 20px var(--teal)); }
+  html.pm-light #pm-path{ stroke:url(#pmGradL); }
+  html.pm-light #pm-glow{ stroke:url(#pmGradL); opacity:.30; }
+  #pm-halo{ fill:var(--gold-light); opacity:.30; }
+  #pm-comet{ fill:#FFF6DE; }
+  html.pm-light #pm-comet{ fill:#FFFDF2; }
+  #pm-svg.pm-arrived #pm-comet{ fill:var(--teal-light); }
+  #pm-svg.pm-arrived #pm-halo{ fill:var(--teal-light); }
 
-  /* ---------- الكشف المتدرّج ---------- */
-  .pm-reveal{ opacity:0; transform:translateY(30px) scale(.985); filter:blur(7px);
-    transition:opacity .8s ease, transform .8s cubic-bezier(.2,.8,.25,1), filter .8s ease; }
-  .pm-reveal.pm-in{ opacity:1; transform:none; filter:blur(0); }
+  /* ====== الكشف المتدرّج (بلا blur — أداء) ====== */
+  .pm-reveal{ opacity:0; transform:translateY(26px);
+    transition:opacity .65s ease, transform .65s cubic-bezier(.2,.8,.25,1); }
+  .pm-reveal.pm-in{ opacity:1; transform:none; }
 
-  /* ---------- دعوة التمرير ---------- */
+  /* ====== دعوة التمرير ====== */
   #pm-cue{ display:flex; flex-direction:column; align-items:center; gap:7px; margin:28px auto 0;
-    width:max-content; color:var(--gold-light); font-weight:700; font-size:.95rem; cursor:pointer;
-    user-select:none; opacity:.95; transition:opacity .5s; text-shadow:0 0 18px rgba(233,196,106,.35); }
+    width:max-content; color:var(--gold-dark); font-weight:700; font-size:.95rem; cursor:pointer;
+    user-select:none; opacity:.95; transition:opacity .5s; }
+  html.pm-dark #pm-cue{ color:var(--gold-light); text-shadow:0 0 18px rgba(233,196,106,.35); }
   #pm-cue .pm-chev{ width:20px; height:20px; border-left:3px solid var(--gold); border-bottom:3px solid var(--gold);
-    transform:rotate(-45deg); animation:pmBounce 1.7s infinite; filter:drop-shadow(0 0 6px rgba(233,196,106,.6)); }
+    transform:rotate(-45deg); animation:pmBounce 1.7s infinite; }
   #pm-cue.pm-hide{ opacity:0; pointer-events:none; }
   @keyframes pmBounce{ 0%,100%{transform:rotate(-45deg) translate(0,0)} 50%{transform:rotate(-45deg) translate(-7px,7px)} }
 
   @media (max-width:768px){
-    :is([data-theme="dark"],html.pm-dark) .hero-line{ font-size:clamp(2rem,9vw,2.9rem); }
+    :is(html.pm-dark,html.pm-light) .hero-line{ font-size:clamp(2rem,9vw,2.9rem); }
   }
   @media (prefers-reduced-motion: reduce){
     #pm-spine{ display:none }
-    .pm-reveal{ opacity:1; transform:none; filter:none; transition:none }
+    .pm-reveal{ opacity:1; transform:none; transition:none }
     #pm-cue .pm-chev{ animation:none }
-    :is([data-theme="dark"],html.pm-dark) .package-card:has(.package-badge){ animation:none }
   }
 
-  /* المسرح المفتوح: خلفيات الأقسام شفافة ليظهر العمود اللولبي */
-  :is([data-theme="dark"],html.pm-dark) :is(.pain-section,.conditions-section,.about-section,.results-section,.packages-section,.testimonials-section,.guarantee-section,.faq-section,.register-section,#counter-section){
-    background:transparent !important;
+  /* ====== أداء: إلغاء الضباب الدائم أثناء التمرير (هيدر/أشرطة) ====== */
+  :is(html.pm-dark,html.pm-light) :is(nav, nav.scrolled, header){
+    backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+    background:color-mix(in srgb, var(--bg) 92%, transparent) !important;
+  }
+  :is(html.pm-dark,html.pm-light) *[class*="sticky"],
+  :is(html.pm-dark,html.pm-light) *[class*="mobile-cta"]{
+    backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
   }
 </style>
 
@@ -4231,10 +4256,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <stop offset="45%" stop-color="#E9C46A"/>
         <stop offset="100%" stop-color="#3CE8D0"/>
       </linearGradient>
+      <linearGradient id="pmGradL" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"  stop-color="#C9952B"/>
+        <stop offset="50%" stop-color="#B8860B"/>
+        <stop offset="100%" stop-color="#0F9486"/>
+      </linearGradient>
     </defs>
-    <path id="pm-glow" fill="none" stroke="url(#pmGrad)" stroke-width="10" stroke-linecap="round" opacity="0.22"/>
+    <path id="pm-glow" fill="none" stroke="url(#pmGrad)" stroke-width="8" stroke-linecap="round" opacity="0.22"/>
     <path id="pm-path" fill="none" stroke="url(#pmGrad)" stroke-width="3.2" stroke-linecap="round"/>
-    <circle id="pm-comet" r="6" fill="#FFF6DE"/>
+    <circle id="pm-halo" r="13"/>
+    <circle id="pm-comet" r="5.5"/>
   </svg>
 </div>
 
@@ -4243,20 +4274,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   'use strict';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ===== 0) فرض الليل الملكي ذاتياً (لا اعتماد على وسم html) ===== */
+  /* ===== 0) الثيمان التوأم: ليلي افتراضاً + نهاري مطابق البنية ===== */
   try{
     var de = document.documentElement;
+    function pmApply(){
+      var d = de.getAttribute('data-theme') === 'dark';
+      de.classList.toggle('pm-dark', d);
+      de.classList.toggle('pm-light', !d);
+    }
     de.setAttribute('data-theme','dark');
-    de.classList.add('pm-dark');
     try{ if (typeof currentTheme !== 'undefined') currentTheme = 'dark'; }catch(_){}
     var tb = document.getElementById('themeBtn'); if(tb) tb.textContent = '☀️';
+    pmApply();
     if (typeof window.toggleTheme === 'function'){
       var _tt = window.toggleTheme;
-      window.toggleTheme = function(){
-        _tt();
-        de.classList.toggle('pm-dark', de.getAttribute('data-theme') === 'dark');
-      };
+      window.toggleTheme = function(){ _tt(); pmApply(); };
     }
+    /* أداء: تحميل كسول لكل الصور غير المعلَّمة */
+    document.querySelectorAll('img:not([loading])').forEach(function(im){
+      im.loading = 'lazy'; im.decoding = 'async';
+    });
   }catch(e){}
 
   /* ===== 1) كشف متدرّج مع تتالٍ (threshold:0 + كشف فوري للمرئي والطويل + شبكة أمان) ===== */
@@ -4334,10 +4371,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     try{
       var pt = path.getPointAtLength(drawn);
       comet.setAttribute('cx', pt.x); comet.setAttribute('cy', pt.y);
+      var halo = document.getElementById('pm-halo');
+      if(halo){ halo.setAttribute('cx', pt.x); halo.setAttribute('cy', pt.y); }
     }catch(e){}
     if(reg){
       var r = reg.getBoundingClientRect();
-      comet.classList.toggle('pm-arrived', r.top < window.innerHeight * 0.6);
+      svg.classList.toggle('pm-arrived', r.top < window.innerHeight * 0.6);
     }
   }
   function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(paint); } }

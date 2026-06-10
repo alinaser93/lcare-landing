@@ -2993,7 +2993,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <option value="vip">💎 VIP — 245,000 دينار</option>
           </select>
         </div>
-        <button class="submit-btn" onclick="handleSubmit()">احجز استشارتي مع د. علي — رد خلال ساعتين</button>
+        <button class="submit-btn" onclick="handleSubmit()">احجز استشارتي المجانية — ردّ خلال ساعتين</button>
+        <p class="form-payfree">✅ بدون أي دفع الآن — تحجز الاستشارة وتقرّر الباقة بعدها</p>
         <p class="form-note">🔒 بياناتك سرية تماماً ولن تُشارك مع أي جهة</p>
 
         <!-- ✅ TRUST SIGNALS BELOW FORM -->
@@ -4206,6 +4207,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   #pm-spine{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:visible; }
   #pm-spine svg{ position:absolute; top:0; right:0; width:100%; height:100%; display:block; }
   html.pm-light #pm-path{ stroke:url(#pmGradL); }
+  html.pm-light #pm-trail{ stroke:#8B6914; }
   html.pm-light #pm-glow{ stroke:url(#pmGradL); opacity:.30; }
   #pm-halo{ fill:var(--gold-light); opacity:.30; }
   #pm-comet{ fill:#FFF6DE; }
@@ -4246,6 +4248,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   :is(html.pm-dark,html.pm-light) *[class*="mobile-cta"]{
     backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
   }
+
+  /* ====== لون الفعل الواحد: زمرّدي (عزل الفعل عن الذهب الجمالي) ====== */
+  :is(html.pm-dark,html.pm-light) :is(.submit-btn,.mobile-cta-btn,.btn-primary,.package-btn){
+    background:linear-gradient(135deg,#34D399,#10B981 52%,#059669) !important;
+    color:#FFFFFF !important; font-weight:800;
+    border:0 !important;
+    box-shadow:0 10px 26px rgba(16,185,129,.35), inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 0 rgba(0,0,0,.18);
+  }
+  :is(html.pm-dark,html.pm-light) :is(.submit-btn,.mobile-cta-btn,.btn-primary,.package-btn):hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 38px rgba(16,185,129,.48), inset 0 1px 0 rgba(255,255,255,.4);
+  }
+  .form-payfree{ text-align:center; font-weight:700; font-size:.95rem; margin:12px 0 4px;
+    color:var(--teal-light); }
+  html.pm-light .form-payfree{ color:var(--teal-dark); }
+
+  /* ====== ترقية اللولب: ذيل + محطات + نبض ====== */
+  #pm-trail{ stroke:#FFF1C9; }
+  html.pm-light #pm-trail{ stroke:#8B6914; }
+  .pm-node{ fill:transparent; stroke:var(--gold); stroke-width:1.6; opacity:.45;
+    transform-box:fill-box; transform-origin:center;
+    transition:transform .35s cubic-bezier(.2,.8,.25,1), fill .35s, opacity .35s; }
+  .pm-node.pm-lit{ fill:var(--gold-light); opacity:1; transform:scale(1.5); }
+  #pm-svg.pm-arrived .pm-node.pm-lit{ fill:var(--teal-light); stroke:var(--teal); }
+  #pm-halo{ transform-box:fill-box; transform-origin:center; }
+  #pm-svg.pm-arrived #pm-halo{ animation:pmPulse 1.6s ease-in-out infinite; }
+  @keyframes pmPulse{ 0%,100%{ transform:scale(1); opacity:.30 } 50%{ transform:scale(1.45); opacity:.14 } }
+  @media (max-width:768px){ #pm-path{ stroke-width:2.6 } #pm-glow{ stroke-width:6 } }
 </style>
 
 <div id="pm-spine" aria-hidden="true">
@@ -4264,6 +4294,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </defs>
     <path id="pm-glow" fill="none" stroke="url(#pmGrad)" stroke-width="8" stroke-linecap="round" opacity="0.22"/>
     <path id="pm-path" fill="none" stroke="url(#pmGrad)" stroke-width="3.2" stroke-linecap="round"/>
+    <path id="pm-trail" fill="none" stroke-width="4.2" stroke-linecap="round" opacity="0.9"/>
     <circle id="pm-halo" r="13"/>
     <circle id="pm-comet" r="5.5"/>
   </svg>
@@ -4282,13 +4313,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       de.classList.toggle('pm-dark', d);
       de.classList.toggle('pm-light', !d);
     }
-    de.setAttribute('data-theme','dark');
-    try{ if (typeof currentTheme !== 'undefined') currentTheme = 'dark'; }catch(_){}
-    var tb = document.getElementById('themeBtn'); if(tb) tb.textContent = '☀️';
+    var saved = null; try{ saved = localStorage.getItem('pm_theme'); }catch(_){}
+    var sysDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var initial = (saved === 'dark' || saved === 'light') ? saved : (sysDark ? 'dark' : 'light');
+    de.setAttribute('data-theme', initial);
+    try{ if (typeof currentTheme !== 'undefined') currentTheme = initial; }catch(_){}
+    var tb = document.getElementById('themeBtn'); if(tb) tb.textContent = (initial === 'dark') ? '☀️' : '🌙';
     pmApply();
     if (typeof window.toggleTheme === 'function'){
       var _tt = window.toggleTheme;
-      window.toggleTheme = function(){ _tt(); pmApply(); };
+      window.toggleTheme = function(){
+        _tt(); pmApply();
+        try{ localStorage.setItem('pm_theme', de.getAttribute('data-theme')); }catch(_){}
+      };
     }
     /* أداء: تحميل كسول لكل الصور غير المعلَّمة */
     document.querySelectorAll('img:not([loading])').forEach(function(im){
@@ -4326,7 +4363,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var wrap=document.getElementById('pm-spine'), svg=document.getElementById('pm-svg'),
       path=document.getElementById('pm-path'), glow=document.getElementById('pm-glow'),
       comet=document.getElementById('pm-comet'), reg=document.getElementById('register'),
-      L=0, ticking=false;
+      L=0, ticking=false, pmNodes=[];
 
   function buildPath(){
     if(!svg || !path) return;
@@ -4354,8 +4391,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     /* الانعطافة الأخيرة تعود للمنتصف نحو الاستمارة */
     d += ' C ' + x + ' ' + (y + 140) + ', ' + cx + ' ' + (y + 140) + ', ' + cx + ' ' + H;
     path.setAttribute('d', d); glow.setAttribute('d', d);
+    var trail = document.getElementById('pm-trail');
+    if(trail) trail.setAttribute('d', d);
     L = path.getTotalLength();
     path.style.strokeDasharray = L; glow.style.strokeDasharray = L;
+    if(trail) trail.style.strokeDasharray = '120 ' + L;
+
+    /* محطات الرحلة: عقدة عند بداية كل قسم تُضاء بمرور المذنّب */
+    try{
+      svg.querySelectorAll('.pm-node').forEach(function(n){ n.remove(); });
+      pmNodes = [];
+      document.querySelectorAll('section:not(.hero)').forEach(function(sec){
+        var ty = sec.offsetTop + 40;
+        if (ty <= 0 || ty >= H) return;
+        var lo = 0, hi = L;                       /* y يتزايد رتيباً على المسار */
+        for (var k = 0; k < 16; k++){
+          var mid = (lo + hi) / 2;
+          if (path.getPointAtLength(mid).y < ty) lo = mid; else hi = mid;
+        }
+        var pl = (lo + hi) / 2, pp = path.getPointAtLength(pl);
+        var node = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        node.setAttribute('class','pm-node');
+        node.setAttribute('r','4');
+        node.setAttribute('cx', pp.x); node.setAttribute('cy', pp.y);
+        svg.insertBefore(node, document.getElementById('pm-halo'));
+        pmNodes.push({ len: pl, el: node });
+      });
+    }catch(e){}
     paint();
   }
 
@@ -4368,6 +4430,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var drawn = L * Math.min(1, p * 1.04 + 0.012);
     path.style.strokeDashoffset = L - drawn;
     glow.style.strokeDashoffset = L - drawn;
+    var trail = document.getElementById('pm-trail');
+    if(trail) trail.style.strokeDashoffset = 120 - drawn;
+    for (var q = 0; q < pmNodes.length; q++){
+      pmNodes[q].el.classList.toggle('pm-lit', drawn >= pmNodes[q].len - 2);
+    }
     try{
       var pt = path.getPointAtLength(drawn);
       comet.setAttribute('cx', pt.x); comet.setAttribute('cy', pt.y);

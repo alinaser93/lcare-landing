@@ -842,6 +842,13 @@ src="https://www.facebook.com/tr?id=1263336169287572&ev=PageView&noscript=1"/></
   .social-link svg { width: 22px; height: 22px; fill: currentColor; }
   .footer-divider { height: 1px; background: var(--border); margin: 24px auto; max-width: 400px; }
   .footer-copyright { font-size: 0.75rem; color: var(--text-muted); opacity: 0.7; }
+  .store-link {
+    display: inline-block;
+    margin-bottom: 22px; color: var(--text-muted);
+    font-size: 0.85rem; font-weight: 400; text-decoration: none;
+    transition: color 0.3s;
+  }
+  .store-link:hover { color: var(--gold); text-decoration: underline; }
 
   /* 🆕 PRESTIGE BADGES SECTION */
   .prestige-section {
@@ -3030,6 +3037,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <div class="footer-divider"></div>
+  <a href="https://store.lcareiq.com" target="_blank" rel="noopener" class="store-link" onclick="trackEvent('Contact','store_footer')">لدينا أيضاً متجر للمستلزمات والأجهزة، متاح عند الحاجة</a>
   <p class="footer-copyright">© 2026 Lcare IQ — جميع الحقوق محفوظة</p>
 </footer>
 

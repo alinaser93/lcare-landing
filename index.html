@@ -4374,6 +4374,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   #pm-svg.pm-arrived #pm-halo{ animation:pmPulse 1.6s ease-in-out infinite; }
   @keyframes pmPulse{ 0%,100%{ transform:scale(1); opacity:.30 } 50%{ transform:scale(1.45); opacity:.14 } }
   @media (max-width:768px){ #pm-path{ stroke-width:2.6 } #pm-glow{ stroke-width:6 } }
+
+  /* ===== إصلاح: بطاقات العدّاد والإنجازات — خلفية متناسقة وواضحة فوق اللولب ===== */
+  /* خلفية معتمة كفاية تمنع تسرّب العمود اللولبي وطمس النص */
+  :is(html.pm-dark,html.pm-light) #counter-section .counter-item,
+  :is(html.pm-dark,html.pm-light) .prestige-section .prestige-item{
+    background:linear-gradient(180deg, rgba(18,24,46,.95), rgba(11,16,33,.975)) !important;
+    border:1px solid rgba(233,196,106,.20) !important;
+    border-radius:16px !important;
+    box-shadow:0 10px 30px rgba(2,6,18,.5), inset 0 1px 0 rgba(255,255,255,.04) !important;
+    opacity:1 !important;
+  }
+  html.pm-light #counter-section .counter-item,
+  html.pm-light .prestige-section .prestige-item{
+    background:linear-gradient(180deg, rgba(255,255,255,.97), rgba(255,252,243,.94)) !important;
+    border:1px solid rgba(146,107,20,.22) !important;
+    box-shadow:0 10px 30px rgba(130,98,28,.12) !important;
+  }
+  /* أحجام متساوية ومحاذاة منتظمة */
+  #counter-section .counter-grid, .prestige-grid{ align-items:stretch !important; }
+  #counter-section .counter-item{
+    display:flex; flex-direction:column; justify-content:center;
+    padding:22px 14px !important; min-height:124px;
+  }
+  .prestige-section .prestige-item{
+    justify-content:center; padding:22px 14px !important; min-height:150px;
+  }
+  .prestige-label{ max-width:none !important; }
+  /* تباين أعلى للنص فوق اللولب */
+  html.pm-dark .counter-num{ filter:drop-shadow(0 1px 7px rgba(0,0,0,.55)); }
+  html.pm-dark .counter-label,
+  html.pm-dark .prestige-label{ color:#D6DCEA !important; }
 </style>
 
 <div id="pm-spine" aria-hidden="true">

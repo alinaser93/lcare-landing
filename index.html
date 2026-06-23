@@ -2301,6 +2301,59 @@ nav.scrolled {
     .section-tag { letter-spacing: 0.12em; }
     .testimonial-card::before { font-size: 5rem; }
   }
+
+  /* 🆕 HOW IT WORKS — 3 STEPS */
+  .how-section {
+    position: relative;
+    background:
+      radial-gradient(ellipse at 85% 0%, rgba(201,168,76,0.06) 0%, transparent 55%),
+      radial-gradient(ellipse at 10% 100%, rgba(20,184,166,0.05) 0%, transparent 55%),
+      var(--bg);
+  }
+  .how-steps {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; margin-top: 50px;
+  }
+  .how-step {
+    position: relative; background: var(--bg3);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 42px 28px 32px; text-align: center;
+    transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+  }
+  .how-step:hover {
+    transform: translateY(-6px); border-color: rgba(201,168,76,0.35);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.28);
+  }
+  .how-step-num {
+    position: absolute; top: 16px; right: 22px;
+    font-family: 'Marcellus', serif; font-size: 2.7rem; font-weight: 400;
+    line-height: 1; color: transparent;
+    -webkit-text-stroke: 1.2px rgba(201,168,76,0.55);
+    opacity: 0.9; pointer-events: none;
+  }
+  .how-step-icon {
+    width: 74px; height: 74px; margin: 8px auto 22px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(201,168,76,0.16), rgba(20,184,166,0.12));
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+  .how-step-icon svg { width: 34px; height: 34px; fill: none; stroke: var(--gold-light); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .how-step h3 { font-size: 1.28rem; color: var(--text); margin-bottom: 12px; }
+  .how-step p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.85; }
+  .how-cta-wrap { text-align: center; margin-top: 46px; }
+  @media (min-width: 768px) {
+    .how-step:not(:first-child)::after {
+      content: ""; position: absolute; top: 62px; right: -16px;
+      width: 32px; height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.45), transparent);
+    }
+  }
+  @media (max-width: 767px) {
+    .how-steps { grid-template-columns: 1fr; gap: 18px; margin-top: 36px; }
+    .how-step { padding: 36px 24px 28px; }
+    .how-step-num { font-size: 2.3rem; }
+  }
 </style>
 </head>
 <body>
@@ -2403,7 +2456,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="section-inner">
     <div class="counter-grid">
       <div class="counter-item reveal"><span class="counter-num" data-target="10" data-suffix="+">0</span><div class="counter-label">سنوات خبرة سريرية</div></div>
-      <div class="counter-item reveal"><span class="counter-num" data-target="30" data-suffix="">0</span><div class="counter-label">يوم لرؤية نتائج واضحة</div></div>
+      <div class="counter-item reveal"><span class="counter-num" data-target="500" data-suffix="K+">0</span><div class="counter-label">متابع يثقون بنا عبر منصّاتنا</div></div>
       <div class="counter-item reveal"><span class="counter-num" data-target="24" data-suffix="/7">0</span><div class="counter-label">دعم طبي مستمر</div></div>
       <div class="counter-item reveal"><span class="counter-num" data-target="2" data-suffix="h">0</span><div class="counter-label">متوسط زمن الرد</div></div>
     </div>
@@ -2568,6 +2621,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </div>
+
+<!-- 🆕 HOW IT WORKS / 3 STEPS -->
+<section class="how-section">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">ابدأ بسهولة</div>
+      <h2 class="section-title">كيف تبدأ معنا في <span class="highlight">3 خطوات</span></h2>
+      <div class="gold-line" style="margin:20px auto"></div>
+      <p class="section-sub" style="margin:0 auto">رحلتك معنا واضحة ومنظّمة من أول لحظة — بلا تعقيد، وبإشراف مباشر في كل خطوة</p>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <span class="how-step-num">01</span>
+        <div class="how-step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10-10-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg></div>
+        <h3>سجّل بياناتك</h3>
+        <p>املأ نموذج الحجز، ويتواصل معك فريقنا خلال ساعتين لفهم احتياجك واختيار الباقة المناسبة لك.</p>
+      </div>
+      <div class="how-step reveal">
+        <span class="how-step-num">02</span>
+        <div class="how-step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg></div>
+        <h3>نجهّز متابعتك</h3>
+        <p>نوفّر لك أدوات المتابعة اليومية، ونبني خطة شخصية مبنية على مؤشراتك وأهدافك الخاصة.</p>
+      </div>
+      <div class="how-step reveal">
+        <span class="how-step-num">03</span>
+        <div class="how-step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/><path d="M9 11l2 2 3-3.5"/></svg></div>
+        <h3>بإشراف الطبيبة الاختصاص د. زينة</h3>
+        <p>إشراف طبي سريري يومي مباشر، ونعدّل خطتك أسبوعياً حسب تطوّر أرقامك خطوة بخطوة.</p>
+      </div>
+    </div>
+
+    <div class="how-cta-wrap">
+      <a href="#register" class="btn-primary" onclick="trackEvent('InitiateCheckout','how_section',{button_type:'how_steps_cta',intent:'medium'})">ابدأ خطوتك الأولى الآن</a>
+    </div>
+  </div>
+</section>
 
 <!-- 🆕 REAL RESULTS / PROOF -->
 <section class="results-section" id="results">
